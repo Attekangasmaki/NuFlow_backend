@@ -3,20 +3,24 @@ import {
   addUser,
   getUserById,
   getUsers,
-  userLogin,
+  putUser,
 } from '../controllers/user-controller.js';
+import { authenticateToken } from '../../middlewares/authentication.js';
 const userRouter = express.Router();
 
 userRouter.route('/')
-  .get(getUsers)
+  .get(authenticateToken, getUsers)
   .post(addUser);
 
 userRouter.route('/:id')
-.get(getUserById)
+.get(getUserById);
 
 
+userRouter.route('/:id')
+.put(authenticateToken, putUser);
 
-
-userRouter.post('/login', userLogin);
 
 export default userRouter;
+
+
+
