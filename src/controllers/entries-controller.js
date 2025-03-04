@@ -6,7 +6,7 @@ const getEntries = async (req, res) => {
   res.json(entries);
 };
 
-const getEntryById = async (req, res) => {
+const getEntryById = async (req, res, next) => {
   console.log('getEntryById', req.params.id);
   try{
     const entry = await selectEntryById(req.params.id);
@@ -17,17 +17,21 @@ const getEntryById = async (req, res) => {
       res.status(404).json({message: "Entry not found"});
     }
   } catch (error) {
-    res.status(500).json({message: error.message});
+    next(error);
   }
 };
 
-const postEntry = async (req, res) => {
+const postEntry = async (req, res, next) => {
   // req.user.user_id
   const newEntry = req.body;
   newEntry.user_id = req.user.user_id;
-  console.log(newEntry);
-  insertEntry(newEntry);
-  res.status(201)({message: 'Kaikki ok, entry added'});
+  try {
+    console.log(newEntry);
+    await insertEntry(newEntry);
+  res.status(201)({message: 'Entry added'});
+  } catch (error) {
+    next(error);
+  }
  };
 
  const putEntry = async (req, res) => {

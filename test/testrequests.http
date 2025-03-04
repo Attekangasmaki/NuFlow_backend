@@ -18,8 +18,8 @@ content-type: application/json;
     "name": "Sitruuna"
 }
 ### Get my user info
-GET http://localhost:3000/api/auth/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo4LCJ1c2VybmFtZSI6ImF0dGVrYW5nYXNzIiwicGFzc3dvcmQiOiIkMmEkMTAkdzNTckx1Nkl0OWhzdXJlVWNQQnRwdU5RRXpUeDNTZHI3emdCdU9KLjJkVFBTMDRFc2pmRDIiLCJlbWFpbCI6Im5ld3VzZXJyckBleGFtcGxlLmNvbSIsImNyZWF0ZWRfYXQiOiIyMDI1LTAyLTIxVDA5OjM3OjM5LjAwMFoiLCJ1c2VyX2xldmVsIjoicmVndWxhciIsImlhdCI6MTc0MDMyODYxMiwiZXhwIjoxNzQwNDE1MDEyfQ.ifGbrlDQxqOzNzMBciEK3cgpi91TQV6o4cmf1zThQxs
+GET http://localhost:5000/api/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwidXNlcm5hbWUiOiJtYXNhMiIsInBhc3N3b3JkIjoiJDJhJDEwJGsyWmtZVm42S2VIWjg3V2VNSEZZY09SSGJSRTA4VUJhVTd0cFhLWWUxTml2MDZQRGVtaHBpIiwiZW1haWwiOiJtYXNhbWFzYW1hc2FAbW9ja2lkYXRhLmZpIiwiY3JlYXRlZF9hdCI6IjIwMjUtMDItMjVUMDk6MDc6MjMuMDAwWiIsInVzZXJfbGV2ZWwiOiJyZWd1bGFyIiwiaWF0IjoxNzQwNDc0NTEyLCJleHAiOjE3NDA1NjA5MTJ9.HTUMTS-vVA6wqJGM27yT9t0l0XtXXTAhPJD4agkbhEk
 
 ###
 POST http://localhost:5000/api/users
@@ -36,11 +36,11 @@ POST http://localhost:5000/api/auth/login
 content-type: application/json
 
 {
-  "username": "attekangass",
-  "password": "salakala"
+  "username": "masa2",
+  "password": "salakala2"
 }
 ###
-POST http://localhost:3000/api/entries
+POST http://localhost:5000/api/entries
 content-type: application/json
 
 {

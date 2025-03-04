@@ -1,10 +1,6 @@
-//figure out and add correct status codes and corresponding messages or data to the responses
-//use POST method to create a new user
-//use GET method to get a specific user
-//create a dummy login endpoint using POST method
-//check that the username and password match and return a success message if they do or an error message if they don't
-
+import { customError } from "../../middlewares/error-handler.js";
 import { getAllUsers, selectUserById, insertUser} from "../models/user-model.js";
+//import {validationResult} from 'express-validator';
 
 import bcrypt from 'bcryptjs';
 
@@ -15,10 +11,11 @@ const getUsers = async (req, res) => {
   res.json(users);
 };
 
-const addUser = async (req, res) => {
+const addUser = async (req, res, next) => {
   console.log('addUser request body', req.body);
+
+
   const {username, password, email} = req.body;
-  if (username && password && email) {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     const newUser = {username, password: hashedPassword, email,};
@@ -27,20 +24,12 @@ const addUser = async (req, res) => {
       res.status(201);
       return res.json({message: 'User added. id: ' + result});
     } catch (error) {
-      console.error("🔥 Database error:", error);
-      return res.status(500).json({message: 'DB error: ' + error.message});
-
-
+      return next(customError(error.message, 400));
     }
-
-  }
-  res.status(400);
-  return res.json({message: 'Request is missing some property.'});
-
 };
 
 
-const getUserById = async (req, res) => {
+const getUserById = async (req, res, next) => {
   const id = parseInt(req.params.id, 10);
   console.log("🛠 Kutsuttiin getUserById ID:llä", id);
 
@@ -55,8 +44,7 @@ const getUserById = async (req, res) => {
       res.status(404).json({ message: "User not found" });
     }
   } catch (error) {
-    console.error("❌ Virhe getUserById-funktiossa:", error.message);
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 

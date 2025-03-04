@@ -1,13 +1,11 @@
 import express from 'express';
 import cors from 'cors';
-import {getItems, getItemById, addItem, updateItem, deleteItem} from './items.js';
-
 import userRouter from './routes/user-router.js';
-console.log("✅ userRouter imported successfully");
-
 import entryRouter from './routes/entries-router.js';
 import authRouter from './routes/auth-router.js';
-console.log("✅ entryRouter imported successfully");
+import activityRouter from './routes/activities-router.js';
+import metricsRouter from './routes/metrics-router.js';
+import { notFoundHandler, errorHandler } from '../middlewares/error-handler.js';
 const hostname = '127.0.0.1';
 const app = express();
 const port = 5000;
@@ -27,17 +25,17 @@ app.get('/api/', (req, res) => {
 app.use('/api/users', userRouter);
 app.use('/api/entries', entryRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/activities', activityRouter)
+app.use('/api/metrics', metricsRouter);
 
-app.get('/api/items', getItems);
-app.get('/api/items/:id', getItemById);
-app.post('/api/items', addItem);
-app.put('/api/items/:id/', updateItem);
-app.delete('/api/items/:id/', deleteItem);
-
-
-
+// 404 Not Found
+app.use(notFoundHandler);
+//Yleinen virhevastausten lähettäjä kaikkia virhetilanteita varten
+app.use(errorHandler);
 
 
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
+
+

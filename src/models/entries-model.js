@@ -15,15 +15,15 @@ const getAllEntries = async () => {
  * @returns {object} user found or undefined if not
  */
 
-const selectEntryById = async (entryId) => {
+const selectEntryById = async (userId, next) => {
   try {
-    if (!entryId) {
-      throw new Error("Entry ID is required");
+    if (!userId) {
+      throw new Error("User ID is required");
     }
 
     const [rows] = await promisePool.query(
       'SELECT * FROM diaryentries WHERE user_id = ?',
-      [entryId]
+      [userId]
     );
 
     if (rows.length === 0) {
@@ -32,11 +32,10 @@ const selectEntryById = async (entryId) => {
 
     return rows[0];
   } catch (error) {
-    console.error("Error fetching user:", error.message);
-    return null;
+    next(error);
   }
 };
-const insertEntry = async (entry) => {
+const insertEntry = async (entry, next) => {
   try {
     const [result] = await promisePool.query(
       'INSERT INTO diaryentries (user_id, entry_date, mood, weight, sleep_hours, notes) VALUES (?, ?, ?, ?, ?, ?)',
@@ -46,11 +45,10 @@ const insertEntry = async (entry) => {
     // return only first item of the result array
     return result.insertId;
   } catch (error) {
-    console.error(error);
-    throw new Error('database error');
+    next(error);
   }
 };
-const updateEntry = async (entryId, entry) => {
+const updateEntry = async (entryId, entry, next) => {
   try {
     const [result] = await promisePool.query(
       'UPDATE diaryentries SET user_id = ?, entry_date = ?, mood = ?, weight = ?, sleep_hours = ?, notes = ? WHERE entry_id = ?',
@@ -62,12 +60,11 @@ const updateEntry = async (entryId, entry) => {
     console.log('putEntry', result);
     return result;
   } catch (error) {
-    console.error(error);
-    throw new Error('Database error');
+    next(error);
   }
 };
 
-const delEntry = async (entryId) => {
+const delEntry = async (entryId, next) => {
   try {
     const [result] = await promisePool.query(
       'DELETE FROM diaryentries WHERE entry_id = ?',
@@ -79,8 +76,7 @@ const delEntry = async (entryId) => {
     console.log('deleteEntry', result);
     return result;
   } catch (error) {
-    console.error(error);
-    throw new Error('Database error');
+    next(error);
   }
 };
 export {selectEntryById, getAllEntries, insertEntry, updateEntry, delEntry};

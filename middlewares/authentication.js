@@ -12,8 +12,10 @@ const authenticateToken = (req, res, next) => {
   try {
     req.user = jwt.verify(token, process.env.JWT_SECRET);
     next();
-  } catch (err) {
-    res.status(403).json({message: 'invalid token'});
+  } catch (error) {
+    //res.status(403).json({message: 'invalid token'});
+    error.status = 403;
+    next(error);
   }
 };
 
