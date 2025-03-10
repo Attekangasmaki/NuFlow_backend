@@ -1,21 +1,33 @@
 import promisePool from '../utils/database.js';
 
-const selectActivityById = async (userId, next) => {
+const selectActivityByUserId = async (userId, next) => {
   try {
     if (!userId) {
-      throw new Error("user ID is required");
+      throw new Error("User ID is required");
     }
 
     const [rows] = await promisePool.query(
-      'SELECT * FROM acticities WHERE user_id = ?',
+      'SELECT * FROM activities WHERE user_id = ?',
       [userId]
     );
 
-    if (rows.length === 0) {
-      throw new Error("Activity not found");
+    return rows; // Palautetaan kaikki käyttäjän aktiviteetit
+  } catch (error) {
+    next(error);
+  }
+};
+const selectActivityById = async (activityId, next) => {
+  try {
+    if (!activityId) {
+      throw new Error("Activity ID is required");
     }
 
-    return rows[0];
+    const [rows] = await promisePool.query(
+      'SELECT * FROM activities WHERE activity_id = ?',
+      [activityId]
+    );
+
+    return rows.length ? rows[0] : null; // Palautetaan yksi aktiviteetti
   } catch (error) {
     next(error);
   }
@@ -23,7 +35,7 @@ const selectActivityById = async (userId, next) => {
 const insertActivity = async (activity, next) => {
   try {
     const [result] = await promisePool.query(
-      'INSERT INTO diaryentries (user_id, activity_date, activity_type, duration_minutes, calories_burned, notes) VALUES (?, ?, ?, ?, ?, ?)',
+      'INSERT INTO activities (user_id, activity_date, activity_type, duration_minutes, calories_burned, notes) VALUES (?, ?, ?, ?, ?, ?)',
       [activity.user_id, activity.activity_date, activity.activity_type, activity.duration_minutes, activity.calories_burned, activity.notes],
     );
     console.log('insertActivity', result);
@@ -36,7 +48,7 @@ const insertActivity = async (activity, next) => {
 const updateActivity = async (activityId, activity, next) => {
   try {
     const [result] = await promisePool.query(
-      'UPDATE diaryentries SET user_id = ?, acitivity_date = ?, activity_type = ?, duration_minutes = ?, calories_burned = ?, notes = ? WHERE acitvity_id = ?',
+      'UPDATE activities SET user_id = ?, activity_date = ?, activity_type = ?, duration_minutes = ?, calories_burned = ?, notes = ? WHERE acitvity_id = ?',
       [activity.user_id, activity.activity_date, activity.activity_type, activity.duration_minutes, activity.calories_burned, activity.notes, activityId]
     );
     if (result.affectedRows === 0) {
@@ -52,7 +64,7 @@ const updateActivity = async (activityId, activity, next) => {
 const delActivity = async (activityId, next) => {
   try {
     const [result] = await promisePool.query(
-      'DELETE FROM diaryentries WHERE entry_id = ?',
+      'DELETE FROM activities WHERE activity_id = ?',
       [activityId]
     );
     if (result.affectedRows === 0) {
@@ -65,4 +77,4 @@ const delActivity = async (activityId, next) => {
   }
 };
 
-export { insertActivity, updateActivity, delActivity, selectActivityById};
+export { selectActivityByUserId, selectActivityById, insertActivity, updateActivity, delActivity };

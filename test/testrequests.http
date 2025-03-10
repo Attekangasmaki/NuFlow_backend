@@ -19,7 +19,7 @@ content-type: application/json;
 }
 ### Get my user info
 GET http://localhost:5000/api/auth/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwidXNlcm5hbWUiOiJtYXNhMiIsInBhc3N3b3JkIjoiJDJhJDEwJGsyWmtZVm42S2VIWjg3V2VNSEZZY09SSGJSRTA4VUJhVTd0cFhLWWUxTml2MDZQRGVtaHBpIiwiZW1haWwiOiJtYXNhbWFzYW1hc2FAbW9ja2lkYXRhLmZpIiwiY3JlYXRlZF9hdCI6IjIwMjUtMDItMjVUMDk6MDc6MjMuMDAwWiIsInVzZXJfbGV2ZWwiOiJyZWd1bGFyIiwiaWF0IjoxNzQwNDc0NTEyLCJleHAiOjE3NDA1NjA5MTJ9.HTUMTS-vVA6wqJGM27yT9t0l0XtXXTAhPJD4agkbhEk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwidXNlcm5hbWUiOiJtYXNhMiIsInBhc3N3b3JkIjoiJDJhJDEwJGsyWmtZVm42S2VIWjg3V2VNSEZZY09SSGJSRTA4VUJhVTd0cFhLWWUxTml2MDZQRGVtaHBpIiwiZW1haWwiOiJtYXNhbWFzYW1hc2FAbW9ja2lkYXRhLmZpIiwiY3JlYXRlZF9hdCI6IjIwMjUtMDItMjVUMDk6MDc6MjMuMDAwWiIsInVzZXJfbGV2ZWwiOiJyZWd1bGFyIiwiaWF0IjoxNzQxMzUwMzE2LCJleHAiOjE3NDE0MzY3MTZ9.tDtCpSpAWOeGx3O91TEANqqOeQOuRz-wxzl9vVY3HPA
 
 ###
 POST http://localhost:5000/api/users
@@ -44,12 +44,18 @@ POST http://localhost:5000/api/entries
 content-type: application/json
 
 {
-  "entry_date": "2025-12-12",
+  "entry_date": "2025-03-04",
   "mood": "good",
-  "weight": "85",
+  "weight": "87",
   "sleep_hours": "9",
-  "notes": "LIFES good"
+  "notes": "feeling good"
 }
+### get entries
+GET http://localhost:5000/api/entries
+
+### delete a entry (by id)
+DELETE localhost:5000/api/entries/2
+
 
 ### get me
 GET http://localhost:3000/api/users/1

@@ -6,16 +6,25 @@ const getAllEntries = async () => {
   console.log(rows);
   return rows;
 };
+const selectEntryById  = async (entryId, next) => {
+  try {
+    if (!entryId) {
+      throw new Error("User ID is required");
+    }
 
-/**
- * Fetch user by id
- * using prepared statement (recommended way)
- * example of error handling
- * @param {number} userId id of the user
- * @returns {object} user found or undefined if not
- */
+    const [rows] = await promisePool.query(
+      'SELECT * FROM diaryentries WHERE entry_id = ?',
+      [entryId]
+    );
 
-const selectEntryById = async (userId, next) => {
+    return rows;
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+const selectEntriesByUserId = async (userId, next) => {
   try {
     if (!userId) {
       throw new Error("User ID is required");
@@ -26,11 +35,7 @@ const selectEntryById = async (userId, next) => {
       [userId]
     );
 
-    if (rows.length === 0) {
-      throw new Error("Entry not found");
-    }
-
-    return rows[0];
+    return rows; // Palautetaan kaikki käyttäjän merkinnät
   } catch (error) {
     next(error);
   }
@@ -79,4 +84,4 @@ const delEntry = async (entryId, next) => {
     next(error);
   }
 };
-export {selectEntryById, getAllEntries, insertEntry, updateEntry, delEntry};
+export { selectEntryById, selectEntriesByUserId, getAllEntries, insertEntry, updateEntry, delEntry};

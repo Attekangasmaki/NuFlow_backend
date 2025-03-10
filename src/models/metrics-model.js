@@ -1,6 +1,23 @@
 import promisePool from '../utils/database.js';
 
 // Hakee metrit käyttäjän ID:n perusteella
+const selectMetricByUserId = async (userId, next) => {
+  try {
+    if (!userId) {
+      throw new Error("User ID is required");
+    }
+
+    const [rows] = await promisePool.query(
+      'SELECT * FROM healthmetrics WHERE user_id = ?',
+      [userId]
+    );
+
+    return rows; // Palautetaan kaikki käyttäjän tiedot
+  } catch (error) {
+    next(error);
+  }
+};
+
 const selectMetricById = async (userId, next) => {
   try {
     if (!userId) {
@@ -12,11 +29,7 @@ const selectMetricById = async (userId, next) => {
       [userId]
     );
 
-    if (rows.length === 0) {
-      throw new Error("Metrics not found");
-    }
-
-    return rows;
+    return rows; // Palautetaan kaikki käyttäjän tiedot
   } catch (error) {
     next(error);
   }
@@ -70,4 +83,4 @@ const delMetric = async (metricId, next) => {
   }
 };
 
-export { selectMetricById, insertMetric, updateMetric, delMetric };
+export { selectMetricByUserId, selectMetricById, insertMetric, updateMetric, delMetric };
