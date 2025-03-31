@@ -1,6 +1,6 @@
 import promisePool from '../utils/database.js';
 
-// Hakee metrit käyttäjän ID:n perusteella
+// Hakee tiedot käyttäjän ID:n perusteella
 const selectMetricByUserId = async (userId, next) => {
   try {
     if (!userId) {
@@ -8,7 +8,7 @@ const selectMetricByUserId = async (userId, next) => {
     }
 
     const [rows] = await promisePool.query(
-      'SELECT * FROM healthmetrics WHERE user_id = ?',
+      'SELECT * FROM health_metrics WHERE user_id = ?',
       [userId]
     );
 
@@ -18,44 +18,30 @@ const selectMetricByUserId = async (userId, next) => {
   }
 };
 
-const selectMetricById = async (userId, next) => {
-  try {
-    if (!userId) {
-      throw new Error("User ID is required");
-    }
-
-    const [rows] = await promisePool.query(
-      'SELECT * FROM healthmetrics WHERE user_id = ?',
-      [userId]
-    );
-
-    return rows; // Palautetaan kaikki käyttäjän tiedot
-  } catch (error) {
-    next(error);
-  }
-};
 
 // Lisää uuden metrin
-const insertMetric = async (metric, next) => {
+const insertHealthmetrics = async (metric, next) => {
   try {
     const [result] = await promisePool.query(
-      'INSERT INTO healthmetrics (user_id, metric_date, blood_pressure, heart_rate, notes) VALUES (?, ?, ?, ?, ?)',
-      [metric.user_id, metric.metric_date, metric.blood_pressure, metric.heart_rate, metric.notes],
+      'INSERT INTO health_metrics (user_id, drug_use, diseases_medications, sleep, self_assessment) VALUES (?, ?, ?, ?, ?)',
+      [metric.user_id, metric.drug_use, metric.diseases_medications, metric.sleep, metric.self_assessment],
     );
-    console.log('insertMetric', result);
+    console.log('insertHealthMetrics', result);
     return result.insertId;
   } catch (error) {
     next(error);
   }
 };
 
-// Päivittää olemassa olevan metrin
-const updateMetric = async (metricId, metric, next) => {
+
+// Päivittää olemassa olevat tiedot metric_id:n perusteella
+const updateHealthmetrics = async (metricId, metric, next) => {
   try {
     const [result] = await promisePool.query(
-      'UPDATE healthmetrics SET user_id = ?, metric_date = ?, blood_pressure = ?, heart_rate = ?, notes = ? WHERE metric_id = ?',
-      [metric.user_id, metric.metric_date, metric.blood_pressure, metric.heart_rate, metric.notes, metricId]
+      'UPDATE health_metrics SET user_id = ?, drug_use = ?, diseases_medications = ?, sleep = ?, self_assesment = ? WHERE metric_id = ?',
+      [metric.user_id, metric.drug_use, metric.diseases_medications, metric.sleep, metric.self_assessment, metricId]
     );
+
     if (result.affectedRows === 0) {
       throw new Error("Metric not found or no changes made");
     }
@@ -66,21 +52,5 @@ const updateMetric = async (metricId, metric, next) => {
   }
 };
 
-// Poistaa metrin ID:n perusteella
-const delMetric = async (metricId, next) => {
-  try {
-    const [result] = await promisePool.query(
-      'DELETE FROM healthmetrics WHERE metric_id = ?',
-      [metricId]
-    );
-    if (result.affectedRows === 0) {
-      throw new Error("Metric not found");
-    }
-    console.log('delMetric', result);
-    return result;
-  } catch (error) {
-    next(error);
-  }
-};
 
-export { selectMetricByUserId, selectMetricById, insertMetric, updateMetric, delMetric };
+export { selectMetricByUserId, insertHealthmetrics, updateHealthmetrics };

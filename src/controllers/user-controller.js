@@ -1,4 +1,4 @@
-import { getAllUsers, selectUserById, insertUser} from "../models/user-model.js";
+import { getAllUsers, selectUserById, insertUser, insertUserinfo} from "../models/user-model.js";
 //import {validationResult} from 'express-validator';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
@@ -15,36 +15,63 @@ const getUsers = async (req, res) => {
 const addUser = async (req, res, next) => {
   console.log('addUser request body', req.body);
 
-  const { username, password, email } = req.body;
+  const { email, password } = req.body;
 
-  if (!username || !password || !email) {
-    return next(customError("Missing required fields", 400)); // Virhe, jos kenttiä puuttuu
+  if (!email || !password) {
+    return next(customError("Missing required fields", 400));
   }
 
   try {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    const newUser = { username, password: hashedPassword, email };
+    const newUser = { email, password: hashedPassword };
 
     const result = await insertUser(newUser);
 
-    // Luo JWT-token käyttäjälle
     const token = jwt.sign(
-      { id: result, username: username },
-      process.env.JWT_SECRET,  // Käytetään oikeaa ympäristömuuttujaa
+      { id: result, email: email },
+      process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
 
-    // Palautetaan token ja käyttäjän tiedot
     return res.status(201).json({
       message: 'User added. id: ' + result,
       token,
-      user: { id: result, username: username }
+      user: { id: result, email: email }
     });
   } catch (error) {
-    // Virheenkäsittely keskitetysti
     console.error("Virhe käyttäjän luomisessa:", error.message);
-    return next(customError(error.message, 400)); // Käytetään next() virheenkäsittelyyn
+    if (next) return next(customError(error.message, 400)); // Varmistetaan, että next on olemassa
+    res.status(500).json({ error: error.message }); // Fallback vastaus
+  }
+};
+
+const addUserinfo = async (req, res, next) => {
+  console.log('addUserInfo request body', req.body);
+
+  const { user_id, first_name, last_name, birthday, height, weight, gender } = req.body;
+
+  // Tarkistetaan, että käyttäjän ID ja vähintään yksi lisätieto on annettu
+  if (!user_id || (!first_name && !last_name && !birthday && !height && !weight && !gender)) {
+    return next(customError("Missing required fields", 400));
+  }
+
+  try {
+    const userInfo = { first_name, last_name, birthday, height, weight, gender };
+    const updatedRows = await insertUserinfo(user_id, userInfo);
+
+    if (updatedRows === 0) {
+      return res.status(404).json({ message: "User not found or no changes applied" });
+    }
+
+    return res.status(200).json({
+      message: `User info updated for user ID: ${user_id}`,
+      user: { user_id, ...userInfo }
+    });
+  } catch (error) {
+    console.error("Virhe käyttäjätietojen päivityksessä:", error.message);
+    if (next) return next(customError(error.message, 400)); // Varmistetaan, että next on olemassa
+    res.status(500).json({ error: error.message }); // Fallback vastaus
   }
 };
 
@@ -81,5 +108,5 @@ const putUser = async (req, res) => {
   }
 }
 
-export{addUser, getUserById, getUsers, putUser};
+export{ addUser, addUserinfo, getUserById, getUsers, putUser };
 

@@ -1,34 +1,17 @@
-###
 
-POST http:/localhost:3000/api/moro
-content-type: application/json;
 
-{
-    "sender": "Atte",
-    "message": "testitervehdys"
-}
-
-### get new
-POST http:/localhost:3000/api/items
-### post new
-POST http:/localhost:3000/api/items
-content-type: application/json;
-
-{
-    "name": "Sitruuna"
-}
 ### Get my user info
 GET http://localhost:5000/api/auth/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwidXNlcm5hbWUiOiJtYXNhMiIsInBhc3N3b3JkIjoiJDJhJDEwJGsyWmtZVm42S2VIWjg3V2VNSEZZY09SSGJSRTA4VUJhVTd0cFhLWWUxTml2MDZQRGVtaHBpIiwiZW1haWwiOiJtYXNhbWFzYW1hc2FAbW9ja2lkYXRhLmZpIiwiY3JlYXRlZF9hdCI6IjIwMjUtMDItMjVUMDk6MDc6MjMuMDAwWiIsInVzZXJfbGV2ZWwiOiJyZWd1bGFyIiwiaWF0IjoxNzQxMzUwMzE2LCJleHAiOjE3NDE0MzY3MTZ9.tDtCpSpAWOeGx3O91TEANqqOeQOuRz-wxzl9vVY3HPA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3NDM0MjY1NjIsImV4cCI6MTc0MzUxMjk2Mn0.2SexGh5EsMD-qnXd77AadJwnDOkuGzr41_CnHCNPsaU
 
-###
+
+### register
 POST http://localhost:5000/api/users
 Content-Type: application/json
 
     {
-    "username": "attekangass",
-    "password": "salakala",
-    "email": "newuserrr@example.com"
+    "email": "testaaja@hospital.com",
+    "password": "S2alakala"
   }
 
 ### user login
@@ -36,39 +19,46 @@ POST http://localhost:5000/api/auth/login
 content-type: application/json
 
 {
-  "username": "masa2",
-  "password": "salakala2"
+  "email": "testaaja@hospital.com",
+  "password": "S2alakala"
 }
-###
-POST http://localhost:5000/api/entries
+
+### Add metrics
+POST http://localhost:5000/api/metrics
 content-type: application/json
 
 {
-  "entry_date": "2025-03-04",
-  "mood": "good",
-  "weight": "87",
-  "sleep_hours": "9",
-  "notes": "feeling good"
+  "user_id": "4",
+  "drug_use": "EN käytä midiksii",
+  "diseases_medications": "En käytä lääkkeitäkään",
+  "sleep": "Hyvin tullu nukuttuu täs viimeaikoin",
+  "self_assessment": "Nuha polvessa"
 }
-### get entries
-GET http://localhost:5000/api/entries
 
-### delete a entry (by id)
-DELETE localhost:5000/api/entries/2
+### Add userinfo
+POST http://localhost:5000/api/users/userinfo/:id
+content-type: application/json
 
+{
+  "first_name": "Janne",
+  "last_name": "Jakonen",
+  "birthday": "1990-01-03",
+  "height": "185.00",
+  "weight": "75.00",
+  "gender": "male",
+  "user_id": "4"
+}
 
-### get me
-GET http://localhost:3000/api/users/1
+### Add metrics
+POST http://localhost:5000/api/metrics/insert
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3NDM0MjY1NjIsImV4cCI6MTc0MzUxMjk2Mn0.2SexGh5EsMD-qnXd77AadJwnDOkuGzr41_CnHCNPsaU
+content-type: application/json
 
-### get user by id
-GET http://localhost:3000/api/users/1
+{
+  "user_id": "4",
+  "drug_use": "EN käytä midiksii",
+  "diseases_medications": "En käytä lääkkeitäkään",
+  "sleep": "Hyvin tullu nukuttuu täs viimeaikoin",
+  "self_assessment": "Nuha polvessa"
+}
 
-### get user by id
-GET http://localhost:3000/api/users/
-
-###
-GET http://localhost:3000/api/users
-
-
-### get entry by userid
-GET http://localhost:3000/api/entries/2

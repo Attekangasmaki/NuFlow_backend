@@ -1,9 +1,9 @@
-import { selectMetricByUserId,selectMetricById, insertMetric, updateMetric, delMetric } from '../models/metrics-model.js';
+import { selectMetricByUserId, insertHealthmetrics, updateHealthmetrics } from '../models/metrics-model.js';
 
 const getMetricById = async (req, res, next) => {
   console.log('getMetricById', req.params.id);
   try {
-    const metric = await selectMetricById(req.params.id);
+    const metric = await selectMetricByUserId(req.params.id);
     console.log('Metric found:', metric);
     if (metric.length > 0) {
       res.json(metric);
@@ -38,7 +38,7 @@ const postMetric = async (req, res, next) => {
 
   try {
     console.log('Adding Metric:', newMetric);
-    await insertMetric(newMetric);
+    await insertHealthmetrics(newMetric);
     res.status(201).json({ message: "Metric added successfully" });
   } catch (error) {
     next(error);
@@ -47,20 +47,13 @@ const postMetric = async (req, res, next) => {
 
 const putMetric = async (req, res, next) => {
   try {
-    await updateMetric(req.params.id, req.body);
-    res.json({ message: "Metric updated successfully" });
+    await updateHealthmetrics(req.params.id, req.body);
+    res.json({ message: "Metrics updated successfully" });
   } catch (error) {
     next(error);
   }
 };
 
-const deleteMetric = async (req, res, next) => {
-  try {
-    await delMetric(req.params.id);
-    res.json({ message: "Metric deleted successfully" });
-  } catch (error) {
-    next(error);
-  }
-};
 
-export { getMetricByUserId, getMetricById, postMetric, putMetric, deleteMetric };
+
+export { getMetricByUserId, getMetricById, postMetric, putMetric };
