@@ -1,6 +1,7 @@
 # Rekistöröityminen
 
 POST http://localhost:5000/api/users
+
 Content-Type: application/json
 
     {
@@ -12,6 +13,7 @@ Content-Type: application/json
 
 
 POST http://localhost:5000/api/auth/login
+
 content-type: application/json
 
 {
@@ -23,6 +25,7 @@ content-type: application/json
 # Esitetolomakkeen tiedot 1/2
 
 POST http://localhost:5000/api/users/userinfo/:id
+
 content-type: application/json
 
 {
@@ -38,6 +41,7 @@ content-type: application/json
 # Esitietolomakkeen tiedot 2/2
 
 POST http://localhost:5000/api/metrics/insert
+
   "user_id": "4",
   "drug_use": "EN käytä midiksii",
   "diseases_medications": "En käytä lääkkeitäkään",
