@@ -47,7 +47,7 @@ const insertEntry = async (entry) => {
   try {
     const [result] = await promisePool.query(
       'INSERT INTO diary_entries (user_id, entry_date, time_of_day, sleep_duration, sleep_notes, current_mood, activity) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [entry.user_id, entry.entry_date, entry.mood, entry.weight, entry.sleep_hours, entry.notes],
+      [entry.user_id, entry.entry_date, entry.time_of_day, entry.sleep_duration, entry.sleep_notes, entry.current_mood, entry.activity],
     );
     console.log('insertEntry', result);
     // return only first item of the result array
@@ -57,22 +57,32 @@ const insertEntry = async (entry) => {
     throw new Error('database error');
   }
 };
-const updateEntry = async (entryId, entry) => {
+
+const updateEntry = async (entryId, entryData) => {
   try {
+    console.log('Updating entry with data:', entryData);
+
     const [result] = await promisePool.query(
-      'UPDATE diary_entries SET user_id = ?, entry_date = ?, time_of_day = ?, sleep_duration = ?, sleep_notes = ?, current_mood = ?, activity = ? WHERE entry_id = ?',
-      [entry.user_id, entry.entry_date, entry.mood, entry.weight, entry.sleep_hours, entry.notes, entryId]
+      'UPDATE diary_entries SET entry_date = ?, time_of_day = ?, sleep_duration = ?, sleep_notes = ?, current_mood = ?, activity = ? WHERE entry_id = ?',
+      [
+        entryData.entry_date,
+        entryData.time_of_day,
+        entryData.sleep_duration,
+        entryData.sleep_notes,
+        entryData.current_mood,
+        entryData.activity,
+        entryId  // Käytetään erillistä entryId:tä request-parametrista
+      ]
     );
-    if (result.affectedRows === 0) {
-      throw new Error("Entry not found or no changes made");
-    }
-    console.log('updateEntry', result);
+
+    console.log('updateEntry query result:', result);
     return result;
   } catch (error) {
-    console.error(error);
-    throw new Error('database error');
+    console.error('Database error:', error);
+    throw new Error('Database error');
   }
 };
+
 
 const delEntry = async (entryId) => {
   try {

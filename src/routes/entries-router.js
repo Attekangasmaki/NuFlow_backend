@@ -24,9 +24,9 @@ entriesRouter.post('/insert', authenticateToken,
   body('entry_date').notEmpty().isDate(),
   body('time_of_day').notEmpty(),
   body('sleep_duration').notEmpty(),
-  body('sleep_notes').notEmpty(),
+  body('sleep_notes').optional(),
   body('current_mood').notEmpty(),
-  body('activity').notEmpty(),
+  body('activity').optional(),
   validationErrorHandler,
   postEntry);
 
@@ -34,12 +34,12 @@ entriesRouter.post('/insert', authenticateToken,
 
 
 entriesRouter.put('/:id', authenticateToken,
-  body('entry_date').notEmpty().isDate().optional(),
-  body('time_of_day').notEmpty().optional(),
-  body('sleep_duration').notEmpty().optional(),
-  body('sleep_notes').notEmpty().optional(),
-  body('current_mood').notEmpty().optional(),
-  body('activity').notEmpty().optional(),
+  body('entry_date').optional().isDate(),
+  body('time_of_day').optional(),
+  body('sleep_duration').optional(),
+  body('sleep_notes').optional(),
+  body('current_mood').optional(),
+  body('activity').optional(),
   putEntry);
 
 

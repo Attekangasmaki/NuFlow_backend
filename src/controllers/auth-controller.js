@@ -26,7 +26,7 @@ const userLogin = async (req, res, next) => {
       return res.json({ message: 'login ok', user: { id: user.user_id, email: user.email }, token });
     }
   }
-  return next(customError('Bad email/password.', 401));
+  return res.status(401).json({ error: 'Bad email/password.' });
 };
 
 

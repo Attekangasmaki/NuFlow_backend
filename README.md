@@ -2,7 +2,6 @@
 
 POST http://localhost:5000/api/users
 
-Content-Type: application/json
 
     {
     "email": "testaaja@hospital.com",
@@ -14,8 +13,6 @@ Content-Type: application/json
 
 POST http://localhost:5000/api/auth/login
 
-content-type: application/json
-
 {
   "email": "testaaja@hospital.com",
   "password": "S2alakala"
@@ -25,8 +22,6 @@ content-type: application/json
 # Esitetolomakkeen tiedot 1/2
 
 POST http://localhost:5000/api/users/userinfo/:id
-
-content-type: application/json
 
 {
   "first_name": "Janne",
@@ -47,3 +42,35 @@ POST http://localhost:5000/api/metrics/insert
   "diseases_medications": "En käytä lääkkeitäkään",
   "sleep": "Hyvin tullu nukuttuu täs viimeaikoin",
   "self_assessment": "Nuha polvessa"
+
+
+
+
+# Päiväkirjamerkinnän lisääminen
+
+POST http://localhost:5000/api/entries/insert
+
+
+{
+ "user_id": "4",
+ "entry_date": "2025-04-01",
+ "time_of_day": "morning",
+ "sleep_duration": "2.5",
+ "sleep_notes": "tosi kiva fiilis",
+ "current_mood": "4",
+ "activity": "Lenkillä kävin tossa"
+}
+
+# Päiväkirjamerkinnän tietojen muokkaaminen
+
+PUT http://localhost:5000/api/entries/:id  id = entry_id
+
+
+{
+ "user_id": "4",
+ "entry_date": "2025-04-01",
+ "time_of_day": "evening",
+ "sleep_duration": "3.5",
+ "sleep_notes": "Parempi fiilis",
+ "current_mood": "5"
+}

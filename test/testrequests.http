@@ -62,3 +62,32 @@ content-type: application/json
   "self_assessment": "Nuha polvessa"
 }
 
+### post a new entry
+POST http://localhost:5000/api/entries/insert
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3NDM0OTMwNTUsImV4cCI6MTc0MzU3OTQ1NX0.AmkEKpWF5Dh0pcPC4srEO6Kfbw0UXd467kwERIiMTmo
+content-type: application/json
+
+{
+ "user_id": "4",
+ "entry_date": "2025-04-01",
+ "time_of_day": "morning",
+ "sleep_duration": "2.5",
+ "sleep_notes": "tosi kiva fiilis",
+ "current_mood": "4",
+ "activity": "Lenkillä kävin tossa"
+}
+
+### Update entry
+
+PUT http://localhost:5000/api/entries/4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3NDM1MDQyOTUsImV4cCI6MTc0MzU5MDY5NX0.d3WrBE8tDTPJsyK8Dl-GUzYrg1ZEn9OA04yZg15EciI
+content-type: application/json
+
+{
+ "user_id": "4",
+ "entry_date": "2025-04-01",
+ "time_of_day": "evening",
+ "sleep_duration": "3.5",
+ "sleep_notes": "Parempi fiilis",
+ "current_mood": "5"
+}
