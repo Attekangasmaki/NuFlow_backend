@@ -1,3 +1,11 @@
+/* Muista tehdä itsellesi .env tiedosto, jossa on seuraavat muuttujat:
+DB_HOST=
+DB_USER=
+USER_PW=
+DB_NAME=
+JWT_SECRET=
+JWT_EXPIRES_IN= */
+
 CREATE DATABASE NuFlow;
 USE NuFlow;
 

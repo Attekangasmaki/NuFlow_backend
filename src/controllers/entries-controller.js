@@ -1,4 +1,4 @@
-import {getAllEntries, insertEntry, selectEntryById, selectEntriesByUserId, delEntry, updateEntry} from "../models/entries-model.js";
+import {getAllEntries, insertEntry, selectEntryById, selectEntriesByUserId, delEntry, updateEntry, selectHrvByDate, insertHrvEntry} from "../models/entries-model.js";
 
 
 const getEntries = async (req, res) => {
@@ -38,6 +38,63 @@ const getEntriesByUserId = async (req, res, next) => {
 };
 
 
+const getHrvByDate = async (req, res, next) => {
+  console.log('getHrvByDate kutsuttu', req.user); // Debug-logi
+
+  try {
+    const userId = req.user.user_id; // Haetaan käyttäjän ID autentikaatiosta
+    const { date } = req.params; // Haetaan päivä URL-parametreista
+
+    if (!userId || !date) {
+      return res.status(400).json({ message: "User ID or date is missing" });
+    }
+
+    const hrvData = await selectHrvByDate(userId, date);
+    console.log('HRV Data found:', hrvData);
+
+    res.json(hrvData); // Lähetetään HRV-tiedot takaisin
+  } catch (error) {
+    next(error);
+  }
+};
+
+const addHrvEntry = async (req, res, next) => {
+  console.log('addHrvEntry kutsuttu', req.user); // Debug-logi
+
+  try {
+    const userId = req.user.user_id; // Haetaan käyttäjän ID autentikaatiosta
+    const {
+      entry_id,
+      hrv_date,
+      heart_rate,
+      rmssd,
+      mean_rr,
+      sdnn,
+      pns_index,
+      sns_index
+    } = req.body; // Haetaan tiedot requestin bodystä
+
+    if (!userId || !entry_id || !hrv_date || !heart_rate || !rmssd || !mean_rr || !sdnn || !pns_index || !sns_index) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const result = await insertHrvEntry({
+      entry_id,
+      hrv_date,
+      heart_rate,
+      rmssd,
+      mean_rr,
+      sdnn,
+      pns_index,
+      sns_index
+    });
+
+    res.status(201).json({ message: "HRV entry added successfully", hrv_id: result.insertId });
+  } catch (error) {
+    next(error);
+  }
+};
+
 const postEntry = async (req, res, next) => {
   // req.user.user_id
   const newEntry = req.body;
@@ -69,4 +126,4 @@ const deleteEntry = async (req, res) => {
   }
 };
 
-export{ getEntries, getEntriesById, getEntriesByUserId, postEntry, putEntry, deleteEntry };
+export{ getEntries, getEntriesById, getEntriesByUserId, postEntry, putEntry, deleteEntry, getHrvByDate, addHrvEntry };

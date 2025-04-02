@@ -35,10 +35,10 @@ const insertHealthmetrics = async (metric, next) => {
 
 
 // Päivittää olemassa olevat tiedot metric_id:n perusteella
-const updateHealthmetrics = async (metricId, metric, next) => {
+const updateHealthmetrics = async (metricId, metric) => {
   try {
     const [result] = await promisePool.query(
-      'UPDATE health_metrics SET user_id = ?, drug_use = ?, diseases_medications = ?, sleep = ?, self_assesment = ? WHERE metric_id = ?',
+      'UPDATE health_metrics SET user_id = ?, drug_use = ?, diseases_medications = ?, sleep = ?, self_assessment = ? WHERE metric_id = ?',
       [metric.user_id, metric.drug_use, metric.diseases_medications, metric.sleep, metric.self_assessment, metricId]
     );
 
@@ -48,7 +48,7 @@ const updateHealthmetrics = async (metricId, metric, next) => {
     console.log('updateMetric', result);
     return result;
   } catch (error) {
-    next(error);
+    throw new Error('Database error: ' + error.message);
   }
 };
 

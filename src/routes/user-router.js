@@ -33,6 +33,10 @@ userRouter.route('/')
       validationErrorHandler,
       addUserinfo);
 
+      userRouter.route('/userinfo/:id')
+    .put(
+      validationErrorHandler,
+      addUserinfo);
 
 
 userRouter.route('/:id')

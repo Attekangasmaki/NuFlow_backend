@@ -5,6 +5,8 @@ import {
   postEntry,
   putEntry,
   deleteEntry,
+  getHrvByDate,
+  addHrvEntry
 } from '../controllers/entries-controller.js';
 import { authenticateToken } from '../../middlewares/authentication.js';
 import { validationErrorHandler } from '../../middlewares/error-handler.js';
@@ -18,6 +20,8 @@ entriesRouter.get('/user/:id', authenticateToken, getEntriesByUserId);
 
 entriesRouter.get('/:id', authenticateToken, getEntriesById);
 
+entriesRouter.get('/hrv/:date', authenticateToken, getHrvByDate);
+
 // Insert a new entry
 
 entriesRouter.post('/insert', authenticateToken,
@@ -30,7 +34,7 @@ entriesRouter.post('/insert', authenticateToken,
   validationErrorHandler,
   postEntry);
 
-
+entriesRouter.post('/hrv', authenticateToken, validationErrorHandler, addHrvEntry);
 
 
 entriesRouter.put('/:id', authenticateToken,
