@@ -111,4 +111,13 @@ PUT http://localhost:5000/api/entries/:id  id = entry_id
 GET  http://localhost:5000/api/entries/hrv/:date   date = esim. 2024-03-25
 
 
+# Käyttäjän kaikkien päiväkirjamerkintöjen haku user_id perusteella.
+
+GET  http://localhost:5000/api/entries/user/:id
+
+
+# Käyttäjän kaikkien HRV-tietojen haku user_id perusteella.
+
+GET  http://localhost:5000/api/entries/user/hrv/:id
+
 

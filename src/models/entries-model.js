@@ -44,6 +44,27 @@ const selectEntriesByUserId = async (userId) => {
   }
 };
 
+const selectHrvByUserId = async (userId) => {
+  try {
+    if (!userId) {
+      throw new Error("User ID is required");
+    }
+
+    const [rows] = await promisePool.query(
+      `SELECT hrv.hrv_date, hrv.heart_rate, hrv.rmssd, hrv.mean_rr, hrv.sdnn, hrv.pns_index, hrv.sns_index
+       FROM hrv_data hrv
+       JOIN diary_entries d ON hrv.entry_id = d.entry_id
+       WHERE d.user_id = ?`,
+      [userId]
+    );
+
+    return rows; // Palautetaan haetut tiedot
+  } catch (error) {
+    console.error(error);
+    throw new Error('Database error');
+  }
+};
+
 const selectHrvByDate = async (userId, date) => {
   try {
     if (!userId || !date) {
@@ -147,4 +168,4 @@ const delEntry = async (entryId) => {
   }
 };
 
-export { selectEntryById, selectEntriesByUserId, getAllEntries, selectHrvByDate, insertHrvEntry, insertEntry, updateEntry, delEntry};
+export { selectEntryById, selectEntriesByUserId, selectHrvByUserId, getAllEntries, selectHrvByDate, insertHrvEntry, insertEntry, updateEntry, delEntry};

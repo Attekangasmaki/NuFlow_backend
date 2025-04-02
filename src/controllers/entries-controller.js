@@ -1,4 +1,4 @@
-import {getAllEntries, insertEntry, selectEntryById, selectEntriesByUserId, delEntry, updateEntry, selectHrvByDate, insertHrvEntry} from "../models/entries-model.js";
+import {getAllEntries, insertEntry, selectEntryById, selectEntriesByUserId, delEntry, updateEntry, selectHrvByDate, selectHrvByUserId, insertHrvEntry} from "../models/entries-model.js";
 
 
 const getEntries = async (req, res) => {
@@ -32,6 +32,24 @@ const getEntriesByUserId = async (req, res, next) => {
     console.log('Entries found:', entries);
 
     res.json(entries); // Lähetetään kaikki merkinnät käyttäjälle
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getHrvByUserId = async (req, res, next) => {
+  console.log('getHrvByUserId kutsuttu', req.user); // Debuggausta
+
+  try {
+    const userId = req.user.user_id; // Haetaan käyttäjän ID autentikaatiosta
+    if (!userId) {
+      return res.status(400).json({ message: "User ID is missing" });
+    }
+
+    const hrvData = await selectHrvByUserId(userId, next);
+    console.log('HRV-data found:', hrvData);
+
+    res.json(hrvData); // Lähetetään kaikki merkinnät käyttäjälle
   } catch (error) {
     next(error);
   }
@@ -126,4 +144,4 @@ const deleteEntry = async (req, res) => {
   }
 };
 
-export{ getEntries, getEntriesById, getEntriesByUserId, postEntry, putEntry, deleteEntry, getHrvByDate, addHrvEntry };
+export{ getEntries, getEntriesById, getEntriesByUserId, getHrvByUserId, postEntry, putEntry, deleteEntry, getHrvByDate, addHrvEntry };

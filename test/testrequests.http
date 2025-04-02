@@ -130,7 +130,7 @@ content-type: application/json
 }
 
 
-### Get HRV-data for entries by date
+### HRV-datan hakeminen päiväkirjamerkintöjä varten
 GET  http://localhost:5000/api/entries/hrv/2024-03-25
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3NDM1ODg2MzEsImV4cCI6MTc0MzY3NTAzMX0.6RaI9EnBfHvwAjUknLzImpkf8C-A2RUu-7oAkSkVZo0
 
@@ -140,4 +140,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpY
 
 ### Get users healthmetrics
 GET  http://localhost:5000/api/metrics/4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3NDM1ODg2MzEsImV4cCI6MTc0MzY3NTAzMX0.6RaI9EnBfHvwAjUknLzImpkf8C-A2RUu-7oAkSkVZo0
+
+
+### Get users entries
+
+GET  http://localhost:5000/api/entries/user/4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3NDM1ODg2MzEsImV4cCI6MTc0MzY3NTAzMX0.6RaI9EnBfHvwAjUknLzImpkf8C-A2RUu-7oAkSkVZo0
+
+### Get users HRV-data
+
+GET  http://localhost:5000/api/entries/user/hrv/4
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3NDM1ODg2MzEsImV4cCI6MTc0MzY3NTAzMX0.6RaI9EnBfHvwAjUknLzImpkf8C-A2RUu-7oAkSkVZo0

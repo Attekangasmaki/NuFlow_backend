@@ -2,6 +2,7 @@ import express from 'express';
 import {
   getEntriesById,
   getEntriesByUserId,
+  getHrvByUserId,
   postEntry,
   putEntry,
   deleteEntry,
@@ -17,6 +18,8 @@ const entriesRouter = express.Router();
 
 
 entriesRouter.get('/user/:id', authenticateToken, getEntriesByUserId);
+
+entriesRouter.get('/user/hrv/:id', authenticateToken, getHrvByUserId);
 
 entriesRouter.get('/:id', authenticateToken, getEntriesById);
 
