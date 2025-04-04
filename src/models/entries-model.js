@@ -168,4 +168,7 @@ const delEntry = async (entryId) => {
   }
 };
 
-export { selectEntryById, selectEntriesByUserId, selectHrvByUserId, getAllEntries, selectHrvByDate, insertHrvEntry, insertEntry, updateEntry, delEntry};
+
+
+
+export { selectEntryById, selectEntriesByUserId, selectHrvByUserId, getAllEntries, selectHrvByDate, insertHrvEntry, insertEntry, updateEntry, delEntry };

@@ -1,39 +1,39 @@
-# Rekistöröityminen
-
-POST http://localhost:5000/api/users
 
 
-    {
-    "email": "testaaja@hospital.com",
-    "password": "S2alakala"
-  }
 
-# Kirjautuminen
-
+### Sisäänkirjautuminen
 
 POST http://localhost:5000/api/auth/login
 
+
 {
-  "email": "testaaja@hospital.com",
-  "password": "S2alakala"
+  "username": "oma-kubios-käyttäjä",
+  "password": "oma-kubios-salasana"
 }
 
 
-# Esitetolomakkeen tietojen lisääminen 1/2
+### Käyttäjän tietojen haku
 
-POST http://localhost:5000/api/users/userinfo/:id
+GET http://localhost:5000/api/kubios/user-info
 
-{
-  "first_name": "Janne",
-  "last_name": "Jakonen",
-  "birthday": "1990-01-03",
-  "height": "185.00",
-  "weight": "75.00",
-  "gender": "male",
-  "user_id": "4"
-}
 
-# Esitietolomakkeen tietojen lisääminen 2/2
+
+
+### Viimeisimmän HRV-datan haku
+
+GET http://localhost:5000/api/kubios/hrv/latest
+
+
+
+### Kaikkien mittausten HRV-datan haku
+
+GET http://localhost:5000/api/kubios/hrv/all
+Authorization: bearer
+
+
+
+
+# Esitietolomakkeen tietojen lisääminen
 
 POST http://localhost:5000/api/metrics/insert
 
@@ -44,21 +44,9 @@ POST http://localhost:5000/api/metrics/insert
   "self_assessment": "Nuha polvessa"
 
 
-### Käyttäjän esitietojen muokkaaminen 1/2
-PUT http://localhost:5000/api/users/userinfo/:id id = user_id
 
 
-{
-  "first_name": "Janna",
-  "last_name": "Jakonen",
-  "birthday": "1990-01-03",
-  "height": "185.00",
-  "weight": "75.00",
-  "gender": "female",
-  "user_id": "4"
-}
-
-### Käyttäjän esitietojen muokkaaminen 2/2
+### Käyttäjän esitietojen muokkaaminen
 PUT http://localhost:5000/api/metrics/:id id = metric_id
 
 
@@ -70,8 +58,6 @@ PUT http://localhost:5000/api/metrics/:id id = metric_id
   "self_assessment": "Edelleen nuha polvessa"
 }
 
-### Hae käyttäjän tiedot
-GET  http://localhost:5000/api/users/:id id = user_id
 
 
 ### Hae käyttäjän esitietolomakkeen tiedot
@@ -106,9 +92,6 @@ PUT http://localhost:5000/api/entries/:id  id = entry_id
  "current_mood": "5"
 }
 
-# HRV-arvojen hakeminen päivän perusteella
-
-GET  http://localhost:5000/api/entries/hrv/:date   date = esim. 2024-03-25
 
 
 # Käyttäjän kaikkien päiväkirjamerkintöjen haku user_id perusteella.
@@ -116,8 +99,5 @@ GET  http://localhost:5000/api/entries/hrv/:date   date = esim. 2024-03-25
 GET  http://localhost:5000/api/entries/user/:id
 
 
-# Käyttäjän kaikkien HRV-tietojen haku user_id perusteella.
-
-GET  http://localhost:5000/api/entries/user/hrv/:id
 
 

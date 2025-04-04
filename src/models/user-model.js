@@ -1,6 +1,23 @@
 import promisePool from '../utils/database.js';
 
-
+const selectUserByEmail = async (email) => {
+  try {
+    const sql = 'SELECT * FROM Users WHERE email=?';
+    const params = [email];
+    const [rows] = await promisePool.query(sql, params);
+    // console.log(rows);
+    // if nothing is found with the user id, result array is empty []
+    if (rows.length === 0) {
+      return {error: 404, message: 'user not found'};
+    }
+    // Remove password property from result
+    delete rows[0].password;
+    return rows[0];
+  } catch (error) {
+    console.error('selectUserByEmail', error);
+    return {error: 500, message: 'db error'};
+  }
+};
 
 const getAllUsers = async () => {
   const [rows] = await promisePool.query(
@@ -102,20 +119,7 @@ const selectUserByEmailAndPassword = async (email, password) => {
 };
 
 
-const selectUserByEmail = async (email) => {
-  try {
-    const [rows] = await promisePool.query(
-      'SELECT user_id, email, password, first_name, last_name, birthday, height, weight, gender, user_level FROM Users WHERE email=?',
-      [email],
-    );
-    console.log(rows);
-    // return only first item of the result array
-    return rows[0];
-  } catch (error) {
-    console.error(error);
-    throw new Error('database error');
-  }
-};
+
 
 export { getAllUsers, getAllProfessionals, selectUserById, insertUser, insertUserinfo, selectUserByEmailAndPassword, selectUserByEmail };
 

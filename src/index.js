@@ -4,6 +4,7 @@ import userRouter from './routes/user-router.js';
 import metricsRouter from './routes/metrics-router.js';
 import entryRouter from './routes/entries-router.js';
 import authRouter from './routes/auth-router.js';
+import kubiosRouter from './routes/kubios-router.js';
 import { notFoundHandler, errorHandler } from '../middlewares/error-handler.js';
 const hostname = '127.0.0.1';
 const app = express();
@@ -25,6 +26,7 @@ app.use('/api/users', userRouter);
 app.use('/api/entries', entryRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/metrics', metricsRouter);
+app.use('/api/kubios', kubiosRouter);
 
 // 404 Not Found
 app.use(notFoundHandler);

@@ -2,12 +2,10 @@ import express from 'express';
 import {
   getEntriesById,
   getEntriesByUserId,
-  getHrvByUserId,
   postEntry,
   putEntry,
   deleteEntry,
   getHrvByDate,
-  addHrvEntry
 } from '../controllers/entries-controller.js';
 import { authenticateToken } from '../../middlewares/authentication.js';
 import { validationErrorHandler } from '../../middlewares/error-handler.js';
@@ -19,7 +17,7 @@ const entriesRouter = express.Router();
 
 entriesRouter.get('/user/:id', authenticateToken, getEntriesByUserId);
 
-entriesRouter.get('/user/hrv/:id', authenticateToken, getHrvByUserId);
+/* entriesRouter.get('/user/hrv/:id', authenticateToken, getHrvByUserId); */
 
 entriesRouter.get('/:id', authenticateToken, getEntriesById);
 
@@ -37,7 +35,7 @@ entriesRouter.post('/insert', authenticateToken,
   validationErrorHandler,
   postEntry);
 
-entriesRouter.post('/hrv', authenticateToken, validationErrorHandler, addHrvEntry);
+/* entriesRouter.post('/hrv', authenticateToken, validationErrorHandler, addHrvEntry); */
 
 
 entriesRouter.put('/:id', authenticateToken,
