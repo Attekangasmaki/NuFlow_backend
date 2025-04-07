@@ -17,6 +17,9 @@ POST http://localhost:5000/api/auth/login
 GET http://localhost:5000/api/kubios/user-info
 
 
+### Käyttäjän tietojen muokkaus (emailia ja syntymäaikaa ei voi muokata)
+
+PATCH http://localhost:5000/api/kubios/userinfo
 
 
 ### Viimeisimmän HRV-datan haku

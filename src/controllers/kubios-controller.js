@@ -211,5 +211,64 @@ const getAllKubiosHrvValues = async (req, res, next) => {
   }
 };
 
+const updateKubiosUserInfo = async (req, res, next) => {
+  try {
+    const { kubiosIdToken } = req.user;
+    const updateData = req.body;
 
-export { getLatestKubiosHrvValues, getAllKubiosHrvValues, getUserInfo };
+    // Varmistetaan, että Kubiosin ID token on olemassa
+    if (!kubiosIdToken) {
+      const error = new Error('Missing Kubios ID token.');
+      error.status = 400;
+      throw error;
+    }
+
+    // Varmistetaan, että päivitykselle on annettu vähintään yksi kenttä
+    if (!updateData || Object.keys(updateData).length === 0) {
+      const error = new Error('At least one field must be provided for update.');
+      error.status = 400;
+      throw error;
+    }
+
+    // Ei sallita emailin tai syntymäajan muuttamista
+    if (updateData.email || updateData.birthdate) {
+      const error = new Error('Email and birthdate cannot be modified.');
+      error.status = 400;
+      throw error;
+    }
+
+    // Määritellään tarvittavat otsikot
+    const headers = new Headers();
+    headers.append('Authorization', kubiosIdToken);
+    headers.append('Content-Type', 'application/json');
+
+    // Päivitetään käyttäjän tiedot Kubiosin API:ssa
+    const response = await fetch('https://analysis.kubioscloud.com/v2/user/self', {
+      method: 'PATCH',
+      headers: headers,
+      body: JSON.stringify(updateData),
+    });
+
+    // Jos API-kutsu epäonnistuu, heitetään virhe
+    if (!response.ok) {
+      const errorText = await response.text();
+      const error = new Error(`Kubios update failed: ${response.statusText}`);
+      error.status = response.status;
+      error.details = errorText;
+      throw error;
+    }
+
+    // Jos päivitys onnistuu, palautetaan päivitetty käyttäjä
+    const updatedUser = await response.json();
+    return res.json(updatedUser);
+  } catch (err) {
+    // Jos virheellä ei ole omaa statuskoodia, asetetaan oletusarvo 500
+    err.status = err.status || 500;
+    // Viedään virhe seuraavaan virheenkäsittelijään
+    next(err);
+  }
+};
+
+
+
+export { getLatestKubiosHrvValues, getAllKubiosHrvValues, getUserInfo, updateKubiosUserInfo };
