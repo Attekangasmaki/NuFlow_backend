@@ -26,6 +26,13 @@ PATCH http://localhost:5000/api/kubios/userinfo
 
 GET http://localhost:5000/api/kubios/hrv/latest
 
+### Hakee viimeisen viikon HRV-datan
+
+GET http://localhost:5000/api/kubios/hrv/last-week
+
+### Hakee viimeisen kuukauden HRV-datan
+
+GET http://localhost:5000/api/kubios/hrv/last-month
 
 
 ### Kaikkien mittausten HRV-datan haku

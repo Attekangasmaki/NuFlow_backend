@@ -211,6 +211,130 @@ const getAllKubiosHrvValues = async (req, res, next) => {
   }
 };
 
+const getKubiosHrvValuesLastWeek = async (req, res, next) => {
+  try {
+    const { kubiosIdToken } = req.user;
+
+    if (!kubiosIdToken) {
+      const error = new Error('Missing Kubios ID token.');
+      error.status = 400;
+      throw error;
+    }
+
+    const headers = new Headers();
+    headers.append('User-Agent', process.env.KUBIOS_USER_AGENT || 'Default-Agent');
+    headers.append('Authorization', kubiosIdToken);
+
+    // Lasketaan viime viikko
+    const now = new Date();
+    const lastWeekStart = new Date(now);
+    lastWeekStart.setDate(now.getDate() - now.getDay() - 7); // Alkuviikko (sunnuntai)
+    const lastWeekStartISOString = lastWeekStart.toISOString();
+
+    const responseLastWeek = await fetch(
+      `${baseUrl}/result/self?from=${lastWeekStartISOString}`,
+      {
+        method: 'GET',
+        headers: headers,
+      }
+    );
+
+    if (!responseLastWeek.ok) {
+      const errorText = await responseLastWeek.text();
+      const error = new Error(`Kubios API request failed: ${responseLastWeek.statusText}`);
+      error.status = responseLastWeek.status;
+      error.details = errorText;
+      throw error;
+    }
+
+    const dataLastWeek = await responseLastWeek.json();
+
+    if (!dataLastWeek.results || dataLastWeek.results.length === 0) {
+      return res.status(404).json({ message: 'No Kubios data found for the last week' });
+    }
+
+    const filteredResults = dataLastWeek.results.map(entry => {
+      const r = entry.result;
+      return {
+        daily_result: entry.daily_result,
+        heart_rate: r.mean_hr_bpm,
+        rmssd: r.rmssd_ms,
+        mean_rr: r.mean_rr_ms,
+        sdnn: r.sdnn_ms,
+        pns_index: r.pns_index,
+        sns_index: r.sns_index
+      };
+    });
+
+    return res.json(filteredResults);
+  } catch (err) {
+    err.status = err.status || 500;
+    next(err);
+  }
+};
+
+const getKubiosHrvValuesLastMonth = async (req, res, next) => {
+  try {
+    const { kubiosIdToken } = req.user;
+
+    if (!kubiosIdToken) {
+      const error = new Error('Missing Kubios ID token.');
+      error.status = 400;
+      throw error;
+    }
+
+    const headers = new Headers();
+    headers.append('User-Agent', process.env.KUBIOS_USER_AGENT || 'Default-Agent');
+    headers.append('Authorization', kubiosIdToken);
+
+    // Lasketaan viime kuukausi
+    const now = new Date();
+    const lastMonthStart = new Date(now);
+    lastMonthStart.setMonth(now.getMonth() - 1, 1); // Kuukauden ensimmäinen päivä
+    const lastMonthStartISOString = lastMonthStart.toISOString();
+
+    const responseLastMonth = await fetch(
+      `${baseUrl}/result/self?from=${lastMonthStartISOString}`,
+      {
+        method: 'GET',
+        headers: headers,
+      }
+    );
+
+    if (!responseLastMonth.ok) {
+      const errorText = await responseLastMonth.text();
+      const error = new Error(`Kubios API request failed: ${responseLastMonth.statusText}`);
+      error.status = responseLastMonth.status;
+      error.details = errorText;
+      throw error;
+    }
+
+    const dataLastMonth = await responseLastMonth.json();
+
+    if (!dataLastMonth.results || dataLastMonth.results.length === 0) {
+      return res.status(404).json({ message: 'No Kubios data found for the last month' });
+    }
+
+    const filteredResults = dataLastMonth.results.map(entry => {
+      const r = entry.result;
+      return {
+        daily_result: entry.daily_result,
+        heart_rate: r.mean_hr_bpm,
+        rmssd: r.rmssd_ms,
+        mean_rr: r.mean_rr_ms,
+        sdnn: r.sdnn_ms,
+        pns_index: r.pns_index,
+        sns_index: r.sns_index
+      };
+    });
+
+    return res.json(filteredResults);
+  } catch (err) {
+    err.status = err.status || 500;
+    next(err);
+  }
+};
+
 const updateKubiosUserInfo = async (req, res, next) => {
   try {
     const { kubiosIdToken } = req.user;
@@ -271,4 +395,4 @@ const updateKubiosUserInfo = async (req, res, next) => {
 
 
 
-export { getLatestKubiosHrvValues, getAllKubiosHrvValues, getUserInfo, updateKubiosUserInfo };
+export { getLatestKubiosHrvValues, getAllKubiosHrvValues, getUserInfo, updateKubiosUserInfo, getKubiosHrvValuesLastMonth, getKubiosHrvValuesLastWeek };
