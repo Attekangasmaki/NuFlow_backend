@@ -2,22 +2,26 @@ import jwt from 'jsonwebtoken';
 import 'dotenv/config';
 
 const authenticateToken = (req, res, next) => {
-  console.log('authenticateToken', req.headers);
+  console.log('Headers:', req.headers); // Debugging headers
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
-  console.log('token', token);
-  if (token == undefined) {
-    return res.sendStatus(401);
+
+  if (!token) {
+    return res.status(401).json({ message: 'Token is missing or invalid' });
   }
+
   try {
-    req.user = jwt.verify(token, process.env.JWT_SECRET);
+    // Debugging: log the decoded token content
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    console.log('Decoded Token:', decodedToken); // This should contain user data like user_id
+
+    req.user = decodedToken; // Set the user data into the request
     next();
   } catch (error) {
-    //res.status(403).json({message: 'invalid token'});
+    console.error('JWT verification error:', error);
     error.status = 403;
     next(error);
   }
 };
-
 
 export { authenticateToken };
