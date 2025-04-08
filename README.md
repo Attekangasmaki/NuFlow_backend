@@ -1,6 +1,3 @@
-
-
-
 ### Sisäänkirjautuminen
 
 POST http://localhost:5000/api/auth/login
@@ -21,14 +18,20 @@ GET http://localhost:5000/api/kubios/user-info
 
 PATCH http://localhost:5000/api/kubios/userinfo
 
+### HRV-datan haku päivämäärän perusteella
+
+GET http://localhost:5000/api/kubios/hrv/by-date/:date
+
 
 ### Viimeisimmän HRV-datan haku
 
 GET http://localhost:5000/api/kubios/hrv/latest
 
+
 ### Hakee viimeisen viikon HRV-datan
 
 GET http://localhost:5000/api/kubios/hrv/last-week
+
 
 ### Hakee viimeisen kuukauden HRV-datan
 
@@ -38,8 +41,6 @@ GET http://localhost:5000/api/kubios/hrv/last-month
 ### Kaikkien mittausten HRV-datan haku
 
 GET http://localhost:5000/api/kubios/hrv/all
-Authorization: bearer
-
 
 
 
@@ -54,11 +55,8 @@ POST http://localhost:5000/api/metrics/insert
   "self_assessment": "Nuha polvessa"
 
 
-
-
 ### Käyttäjän esitietojen muokkaaminen
 PUT http://localhost:5000/api/metrics/:id id = metric_id
-
 
 {
   "user_id": "4",
@@ -69,14 +67,13 @@ PUT http://localhost:5000/api/metrics/:id id = metric_id
 }
 
 
-
 ### Hae käyttäjän esitietolomakkeen tiedot
 GET  http://localhost:5000/api/metrics/:id id = user_id
+
 
 # Päiväkirjamerkinnän lisääminen
 
 POST http://localhost:5000/api/entries/insert
-
 
 {
  "user_id": "4",
@@ -88,10 +85,10 @@ POST http://localhost:5000/api/entries/insert
  "activity": "Lenkillä kävin tossa"
 }
 
+
 # Päiväkirjamerkinnän tietojen muokkaaminen
 
 PUT http://localhost:5000/api/entries/:id  id = entry_id
-
 
 {
  "user_id": "4",
@@ -101,7 +98,6 @@ PUT http://localhost:5000/api/entries/:id  id = entry_id
  "sleep_notes": "Parempi fiilis",
  "current_mood": "5"
 }
-
 
 
 # Käyttäjän kaikkien päiväkirjamerkintöjen haku user_id perusteella.

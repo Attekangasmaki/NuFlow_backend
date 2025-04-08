@@ -72,6 +72,78 @@ const getLatestKubiosHrvValues = async (req, res, next) => {
   }
 };
 
+const getKubiosHrvValuesByDate = async (req, res, next) => {
+  try {
+    const { kubiosIdToken } = req.user;
+    const { date } = req.params;
+
+    if (!kubiosIdToken) {
+      const error = new Error('Missing Kubios ID token.');
+      error.status = 400;
+      throw error;
+    }
+
+    if (!date) {
+      const error = new Error('Missing required date parameter.');
+      error.status = 400;
+      throw error;
+    }
+
+    const fromDate = new Date(date);
+    const toDate = new Date(fromDate);
+    toDate.setDate(toDate.getDate() + 1); // seuraava päivä
+
+    const fromISOString = fromDate.toISOString();
+    const toISOString = toDate.toISOString();
+
+    const headers = new Headers();
+    headers.append('User-Agent', process.env.KUBIOS_USER_AGENT || 'Default-Agent');
+    headers.append('Authorization', kubiosIdToken);
+
+    const response = await fetch(
+      `https://analysis.kubioscloud.com/v2/result/self?from=${encodeURIComponent(fromISOString)}&to=${encodeURIComponent(toISOString)}`,
+      {
+        method: 'GET',
+        headers: headers,
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      const error = new Error(`Kubios API request failed: ${response.statusText}`);
+      error.status = response.status;
+      error.details = errorText;
+      throw error;
+    }
+
+    const data = await response.json();
+    const results = data.results;
+
+    if (!results || results.length === 0) {
+      return res.status(404).json({ message: `No Kubios data found for ${date}` });
+    }
+
+    const filteredResults = results
+      .filter(r => r.result)
+      .map(r => ({
+        create_timestamp: r.create_timestamp,
+        daily_result: r.daily_result,
+        heart_rate: r.result.mean_hr_bpm,
+        rmssd: r.result.rmssd_ms,
+        mean_rr: r.result.mean_rr_ms,
+        sdnn: r.result.sdnn_ms,
+        pns_index: r.result.pns_index,
+        sns_index: r.result.sns_index
+      }));
+
+    return res.json({ date, results: filteredResults });
+  } catch (err) {
+    err.status = err.status || 500;
+    next(err);
+  }
+};
+
+
 
 
 
@@ -395,4 +467,4 @@ const updateKubiosUserInfo = async (req, res, next) => {
 
 
 
-export { getLatestKubiosHrvValues, getAllKubiosHrvValues, getUserInfo, updateKubiosUserInfo, getKubiosHrvValuesLastMonth, getKubiosHrvValuesLastWeek };
+export { getLatestKubiosHrvValues, getAllKubiosHrvValues, getUserInfo, updateKubiosUserInfo, getKubiosHrvValuesLastMonth, getKubiosHrvValuesLastWeek, getKubiosHrvValuesByDate };

@@ -1,6 +1,6 @@
 import express from 'express';
 import { authenticateToken } from '../../middlewares/authentication.js';
-import { getLatestKubiosHrvValues, getAllKubiosHrvValues, getUserInfo, updateKubiosUserInfo, getKubiosHrvValuesLastMonth, getKubiosHrvValuesLastWeek } from '../controllers/kubios-controller.js';
+import { getLatestKubiosHrvValues, getAllKubiosHrvValues, getUserInfo, updateKubiosUserInfo, getKubiosHrvValuesLastMonth, getKubiosHrvValuesLastWeek, getKubiosHrvValuesByDate } from '../controllers/kubios-controller.js';
 
 const kubiosRouter = express.Router();
 
@@ -10,6 +10,7 @@ kubiosRouter
   .get('/user-info', authenticateToken, getUserInfo)
   .get('/hrv/last-week', authenticateToken, getKubiosHrvValuesLastWeek)
   .get('/hrv/last-month', authenticateToken, getKubiosHrvValuesLastMonth)
+  .get('/hrv/by-date/:date', authenticateToken, getKubiosHrvValuesByDate)
   .patch('/userinfo', authenticateToken, updateKubiosUserInfo);
 
 
