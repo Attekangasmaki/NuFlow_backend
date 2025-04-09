@@ -175,4 +175,4 @@ const getMe = async (req, res) => {
   res.json({user, kubios_token: req.user.kubiosIdToken});
 };
 
-export {postLogin, getMe};
+export { postLogin, getMe };

@@ -24,11 +24,11 @@ entriesRouter.get('/:id', authenticateToken, getEntriesById);
 // Insert a new entry
 
 entriesRouter.post('/insert', authenticateToken,
-  body('entry_date').notEmpty().withMessage('Entry date is required').isISO8601().withMessage('Entry date must be a valid date (YYYY-MM-DD)'),
-  body('time_of_day').notEmpty().withMessage('Time of day is required').isIn(['morning', 'afternoon', 'evening', 'night']).withMessage('Invalid time of day'),
-  body('sleep_duration').notEmpty().withMessage('Sleep duration is required').isFloat({ min: 0, max: 24 }).withMessage('Sleep duration must be between 0 and 24 hours'),
+  body('entry_date').notEmpty().withMessage('Entry date is required'),
+  body('time_of_day').notEmpty().withMessage('Time of day is required').isIn(['morning', 'evening']).withMessage('Invalid time of day'),
+  body('sleep_duration').notEmpty().withMessage('Sleep duration is required').isFloat({ min: 1, max: 5 }).withMessage('Sleep duration must be between 1 and 5'),
   body('sleep_notes').optional().isLength({ max: 500 }).withMessage('Sleep notes must be under 500 characters'),
-  body('current_mood').notEmpty().withMessage('Mood is required').isIn(['happy', 'neutral', 'sad', 'angry', 'anxious']).withMessage('Invalid mood'),
+  body('current_mood').notEmpty().withMessage('Mood is required').isFloat({ min: 1, max: 5 }).withMessage('Sleep duration must be between 1 and 5'),
   body('activity').optional().isLength({ max: 255 }).withMessage('Activity description too long'),
   validationErrorHandler,
   postEntry);

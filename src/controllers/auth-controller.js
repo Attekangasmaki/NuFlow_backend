@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import {selectUserByEmail} from '../models/user-model.js';
+import { selectUserByEmail } from '../models/user-model.js';
 import 'dotenv/config';
 import bcrypt from 'bcryptjs';
 import { customError } from '../../middlewares/error-handler.js';
@@ -35,4 +35,4 @@ const getMe = (req, res) => {
   res.json(user);
 }
 
-export{userLogin, getMe};
+export{ userLogin, getMe };

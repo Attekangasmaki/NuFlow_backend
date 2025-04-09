@@ -1,4 +1,4 @@
-import {getAllEntries, insertEntry, selectEntryById, selectEntriesByUserId, delEntry, updateEntry, insertHrvEntry} from "../models/entries-model.js";
+import { getAllEntries, insertEntry, selectEntryById, selectEntriesByUserId, delEntry, updateEntry, insertHrvEntry } from "../models/entries-model.js";
 
 
 const getEntries = async (req, res) => {

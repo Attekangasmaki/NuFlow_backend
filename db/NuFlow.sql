@@ -84,9 +84,9 @@ INSERT INTO health_metrics (user_id, drug_use, diseases_medications, sleep, self
 (3, 'None', 'Asthma', '8 hours', 'Feeling excellent');
 
 INSERT INTO diary_entries (user_id, entry_date, time_of_day, sleep_duration, sleep_notes, current_mood, activity) VALUES
-(1, '2024-03-24', 'morning', 7.5, 'Slept well', 4, 'Jogging'),
-(1, '2024-03-25', 'evening', 6.0, 'Woke up twice', 3, 'Yoga'),
-(1, '2024-03-26', 'morning', 8.0, 'Felt refreshed', 5, 'Meditation');
+(5, '2024-03-24', 'morning', 3, 'Slept well', 4, 'Jogging'),
+(5, '2024-03-25', 'evening', 4, 'Woke up twice', 3, 'Yoga'),
+(5, '2024-03-26', 'morning', 3, 'Felt refreshed', 5, 'Meditation');
 
 INSERT INTO hrv_data (entry_id, hrv_date, heart_rate, rmssd, mean_rr, sdnn, pns_index, sns_index) VALUES
 (1, '2024-03-24', 60, 45.3, 980.2, 35.7, 2.1, 1.5),
