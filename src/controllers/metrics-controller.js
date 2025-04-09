@@ -18,7 +18,7 @@ const getMetricById = async (req, res, next) => {
 
 
 const getMetricByUserId = async (req, res, next) => {
-  console.log('getMetricById', req.user.user_id);
+  console.log('getMetricById', req.user.userId);
   try {
     const metric = await selectMetricByUserId(req.user.user_id);
     console.log('Metric found:', metric);

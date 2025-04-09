@@ -6,6 +6,21 @@ DB_NAME=
 JWT_SECRET=
 JWT_EXPIRES_IN= */
 
+
+### Aja nämä komennot SQL:ssä. Komennoilla muutettaan diary_entries taulun sarakkeiden tyypit kokonaisluvuksi,
+ja poistetaan turha taulu hrv_data.
+
+UPDATE diary_entries SET sleep_duration = 3.0;
+ALTER TABLE diary_entries MODIFY sleep_duration FLOAT;
+UPDATE diary_entries SET current_mood = 3.0;
+ALTER TABLE diary_entries MODIFY current_mood FLOAT;
+DELETE * from hrv_data;
+DROP TABLE hrv_data;
+
+
+
+### Tietokannanluontikoodi
+
 CREATE DATABASE NuFlow;
 USE NuFlow;
 
