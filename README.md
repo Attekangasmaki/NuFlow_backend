@@ -18,6 +18,27 @@ GET http://localhost:5000/api/kubios/user-info
 
 PATCH http://localhost:5000/api/kubios/userinfo
 
+# HRV
+
+### Hakee viimeiset 7 mittausta.
+
+GET http://localhost:5000/api/kubios/hrv/last-7-measurements
+
+
+### Hakee viimeiset 30 mittausta.
+
+GET http://localhost:5000/api/kubios/hrv/last-30-measurements
+
+### Hakee viimeisen seitsemän päivän mittaukset.
+
+GET http://localhost:5000/api/kubios/hrv/last-week
+
+
+### Hakee viimeisen kolmenkymmenen päivän mittaukset.
+
+GET http://localhost:5000/api/kubios/hrv/last-month
+
+
 ### HRV-datan haku päivämäärän perusteella
 
 GET http://localhost:5000/api/kubios/hrv/by-date/:date
@@ -28,14 +49,7 @@ GET http://localhost:5000/api/kubios/hrv/by-date/:date
 GET http://localhost:5000/api/kubios/hrv/latest
 
 
-### Hakee viimeisen viikon HRV-datan
 
-GET http://localhost:5000/api/kubios/hrv/last-week
-
-
-### Hakee viimeisen kuukauden HRV-datan
-
-GET http://localhost:5000/api/kubios/hrv/last-month
 
 
 ### Kaikkien mittausten HRV-datan haku
@@ -44,7 +58,9 @@ GET http://localhost:5000/api/kubios/hrv/all
 
 
 
-# Esitietolomakkeen tietojen lisääminen
+# Esitiedot
+
+### Esitietolomakkeen tietojen lisääminen
 
 POST http://localhost:5000/api/metrics/insert
 
@@ -71,7 +87,9 @@ PUT http://localhost:5000/api/metrics/:id id = metric_id
 GET  http://localhost:5000/api/metrics/:id id = user_id
 
 
-# Päiväkirjamerkinnän lisääminen
+# Päiväkirjamerkinnät
+
+### Päiväkirjamerkinnän lisääminen
 
 POST http://localhost:5000/api/entries/insert
 
@@ -86,7 +104,7 @@ POST http://localhost:5000/api/entries/insert
 }
 
 
-# Päiväkirjamerkinnän tietojen muokkaaminen
+### Päiväkirjamerkinnän tietojen muokkaaminen
 
 PUT http://localhost:5000/api/entries/:id  id = entry_id
 
@@ -100,7 +118,7 @@ PUT http://localhost:5000/api/entries/:id  id = entry_id
 }
 
 
-# Käyttäjän kaikkien päiväkirjamerkintöjen haku user_id perusteella.
+### Käyttäjän kaikkien päiväkirjamerkintöjen haku user_id perusteella.
 
 GET  http://localhost:5000/api/entries/user/:id
 

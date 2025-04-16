@@ -297,35 +297,35 @@ const getKubiosHrvValuesLastWeek = async (req, res, next) => {
     headers.append('User-Agent', process.env.KUBIOS_USER_AGENT || 'Default-Agent');
     headers.append('Authorization', kubiosIdToken);
 
-    // Lasketaan viime viikko
+    // Lasketaan viimeiset 7 päivää (tänään mukaanlukien)
     const now = new Date();
-    const lastWeekStart = new Date(now);
-    lastWeekStart.setDate(now.getDate() - now.getDay() - 7); // Alkuviikko (sunnuntai)
-    const lastWeekStartISOString = lastWeekStart.toISOString();
+    const sevenDaysAgo = new Date(now);
+    sevenDaysAgo.setDate(now.getDate() - 6); // 6 päivää taaksepäin, mukaanlukien tämä päivä
+    const sevenDaysAgoISOString = sevenDaysAgo.toISOString();
 
-    const responseLastWeek = await fetch(
-      `${baseUrl}/result/self?from=${lastWeekStartISOString}`,
+    const response = await fetch(
+      `${baseUrl}/result/self?from=${sevenDaysAgoISOString}`,
       {
         method: 'GET',
         headers: headers,
       }
     );
 
-    if (!responseLastWeek.ok) {
-      const errorText = await responseLastWeek.text();
-      const error = new Error(`Kubios API request failed: ${responseLastWeek.statusText}`);
-      error.status = responseLastWeek.status;
+    if (!response.ok) {
+      const errorText = await response.text();
+      const error = new Error(`Kubios API request failed: ${response.statusText}`);
+      error.status = response.status;
       error.details = errorText;
       throw error;
     }
 
-    const dataLastWeek = await responseLastWeek.json();
+    const data = await response.json();
 
-    if (!dataLastWeek.results || dataLastWeek.results.length === 0) {
-      return res.status(404).json({ message: 'No Kubios data found for the last week' });
+    if (!data.results || data.results.length === 0) {
+      return res.status(404).json({ message: 'No Kubios data found for the last 7 days' });
     }
 
-    const filteredResults = dataLastWeek.results.map(entry => {
+    const filteredResults = data.results.map(entry => {
       const r = entry.result;
       return {
         daily_result: entry.daily_result,
@@ -344,6 +344,7 @@ const getKubiosHrvValuesLastWeek = async (req, res, next) => {
     next(err);
   }
 };
+
 
 const getKubiosHrvValuesLastMonth = async (req, res, next) => {
   try {
@@ -359,35 +360,35 @@ const getKubiosHrvValuesLastMonth = async (req, res, next) => {
     headers.append('User-Agent', process.env.KUBIOS_USER_AGENT || 'Default-Agent');
     headers.append('Authorization', kubiosIdToken);
 
-    // Lasketaan viime kuukausi
+    // Haetaan viimeiset 30 päivää tästä hetkestä taaksepäin
     const now = new Date();
-    const lastMonthStart = new Date(now);
-    lastMonthStart.setMonth(now.getMonth() - 1, 1); // Kuukauden ensimmäinen päivä
-    const lastMonthStartISOString = lastMonthStart.toISOString();
+    const thirtyDaysAgo = new Date(now);
+    thirtyDaysAgo.setDate(now.getDate() - 29); // Sisällytetään myös tämä päivä
+    const thirtyDaysAgoISOString = thirtyDaysAgo.toISOString();
 
-    const responseLastMonth = await fetch(
-      `${baseUrl}/result/self?from=${lastMonthStartISOString}`,
+    const response = await fetch(
+      `${baseUrl}/result/self?from=${thirtyDaysAgoISOString}`,
       {
         method: 'GET',
         headers: headers,
       }
     );
 
-    if (!responseLastMonth.ok) {
-      const errorText = await responseLastMonth.text();
-      const error = new Error(`Kubios API request failed: ${responseLastMonth.statusText}`);
-      error.status = responseLastMonth.status;
+    if (!response.ok) {
+      const errorText = await response.text();
+      const error = new Error(`Kubios API request failed: ${response.statusText}`);
+      error.status = response.status;
       error.details = errorText;
       throw error;
     }
 
-    const dataLastMonth = await responseLastMonth.json();
+    const data = await response.json();
 
-    if (!dataLastMonth.results || dataLastMonth.results.length === 0) {
-      return res.status(404).json({ message: 'No Kubios data found for the last month' });
+    if (!data.results || data.results.length === 0) {
+      return res.status(404).json({ message: 'No Kubios data found for the last 30 days' });
     }
 
-    const filteredResults = dataLastMonth.results.map(entry => {
+    const filteredResults = data.results.map(entry => {
       const r = entry.result;
       return {
         daily_result: entry.daily_result,
@@ -406,6 +407,7 @@ const getKubiosHrvValuesLastMonth = async (req, res, next) => {
     next(err);
   }
 };
+
 
 const updateKubiosUserInfo = async (req, res, next) => {
   try {
@@ -465,6 +467,140 @@ const updateKubiosUserInfo = async (req, res, next) => {
   }
 };
 
+const getKubiosLast7Measurements = async (req, res, next) => {
+  try {
+    const { kubiosIdToken } = req.user;
+
+    if (!kubiosIdToken) {
+      const error = new Error('Missing Kubios ID token.');
+      error.status = 400;
+      throw error;
+    }
+
+    const headers = new Headers();
+    headers.append('User-Agent', process.env.KUBIOS_USER_AGENT || 'Default-Agent');
+    headers.append('Authorization', kubiosIdToken);
+
+    const response = await fetch(
+      baseUrl + '/result/self?from=2022-01-01T00%3A00%3A00%2B00%3A00',
+      {
+        method: 'GET',
+        headers: headers,
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      const error = new Error(`Kubios API request failed: ${response.statusText}`);
+      error.status = response.status;
+      error.details = errorText;
+      throw error;
+    }
+
+    const data = await response.json();
+    const results = data.results;
+
+    if (!results || results.length === 0) {
+      return res.status(404).json({ message: 'No Kubios data found' });
+    }
+
+    // Suodatetaan ja järjestetään uusimmat mittaukset
+    const validResults = results
+      .filter(entry => entry.daily_result && entry.result)
+      .sort((a, b) => new Date(b.daily_result) - new Date(a.daily_result))
+      .slice(0, 7);
+
+    const filteredResults = validResults.map(entry => {
+      const r = entry.result;
+      return {
+        daily_result: entry.daily_result,
+        heart_rate: r.mean_hr_bpm,
+        rmssd: r.rmssd_ms,
+        mean_rr: r.mean_rr_ms,
+        sdnn: r.sdnn_ms,
+        pns_index: r.pns_index,
+        sns_index: r.sns_index
+      };
+    });
+
+    return res.json(filteredResults);
+  } catch (err) {
+    err.status = err.status || 500;
+    next(err);
+  }
+};
 
 
-export { getLatestKubiosHrvValues, getAllKubiosHrvValues, getUserInfo, updateKubiosUserInfo, getKubiosHrvValuesLastMonth, getKubiosHrvValuesLastWeek, getKubiosHrvValuesByDate };
+
+
+
+
+const getKubiosLast30Measurements = async (req, res, next) => {
+  try {
+    const { kubiosIdToken } = req.user;
+
+    if (!kubiosIdToken) {
+      const error = new Error('Missing Kubios ID token.');
+      error.status = 400;
+      throw error;
+    }
+
+    const headers = new Headers();
+    headers.append('User-Agent', process.env.KUBIOS_USER_AGENT || 'Default-Agent');
+    headers.append('Authorization', kubiosIdToken);
+
+    const response = await fetch(
+      baseUrl + '/result/self?from=2022-01-01T00%3A00%3A00%2B00%3A00',
+      {
+        method: 'GET',
+        headers: headers,
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      const error = new Error(`Kubios API request failed: ${response.statusText}`);
+      error.status = response.status;
+      error.details = errorText;
+      throw error;
+    }
+
+    const data = await response.json();
+    const results = data.results;
+
+    if (!results || results.length === 0) {
+      return res.status(404).json({ message: 'No Kubios data found' });
+    }
+
+    // Suodatetaan ja järjestetään uusimmat mittaukset
+    const validResults = results
+      .filter(entry => entry.daily_result && entry.result)
+      .sort((a, b) => new Date(b.daily_result) - new Date(a.daily_result))
+      .slice(0, 30);
+
+    const filteredResults = validResults.map(entry => {
+      const r = entry.result;
+      return {
+        daily_result: entry.daily_result,
+        heart_rate: r.mean_hr_bpm,
+        rmssd: r.rmssd_ms,
+        mean_rr: r.mean_rr_ms,
+        sdnn: r.sdnn_ms,
+        pns_index: r.pns_index,
+        sns_index: r.sns_index
+      };
+    });
+
+    return res.json(filteredResults);
+  } catch (err) {
+    err.status = err.status || 500;
+    next(err);
+  }
+};
+
+
+
+
+
+
+export { getLatestKubiosHrvValues, getAllKubiosHrvValues, getUserInfo, updateKubiosUserInfo, getKubiosHrvValuesLastMonth, getKubiosHrvValuesLastWeek, getKubiosHrvValuesByDate, getKubiosLast7Measurements, getKubiosLast30Measurements };
