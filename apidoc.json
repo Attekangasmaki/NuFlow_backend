@@ -1,0 +1,7 @@
+{
+    "name": "My API",
+    "version": "1.0.0",
+    "description": "Dokumentaatio NuFlow:n REST-API:lle",
+    "title": "NuFlow API Docs",
+    "url": "http://localhost:5000/api"
+  }

@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import userRouter from './routes/user-router.js';
 import metricsRouter from './routes/metrics-router.js';
 import entryRouter from './routes/entries-router.js';
 import authRouter from './routes/auth-router.js';
@@ -22,7 +21,7 @@ app.get('/api/', (req, res) => {
   res.send('Welcome to my REST API!');
 });
 
-app.use('/api/users', userRouter);
+
 app.use('/api/entries', entryRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/metrics', metricsRouter);
