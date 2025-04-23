@@ -1,22 +1,24 @@
 *** Settings ***
 Library    RequestsLibrary
 Library    Collections
-Suite Setup    Authenticate as Admin         # Suoritetaan ennen testitapauksia
+Suite Setup    Authenticate user    ${username}    ${password}   # Anna argumentit
+
+*** Variables ***
+${username}    elsikubios@gmail.com
+${password}    750GmuduMdLX
+
+*** Test Cases ***
+Valid Login Test
+    [Documentation]    Testaa, että sisäänkirjautuminen onnistuu oikeilla tunnuksilla.
+    Authenticate user    ${username}    ${password}
 
 *** Keywords ***
 Authenticate user
     [Documentation]  Kirjaudutaan sisään ylläpitäjän oikeuksilla.
-    ...              - Aluksi luodaan rakenne (Dictionary), joka sisältää käyttäjänimen ja salasanan
-    ...              - body-rakenne annetaan POST metodille JSON-parametrina
-    ...              - Palautteena tuleva JSON-rakenne tulostetaan lokitiedostoon
-    ...              - JSON rakenteesta kaivetaan esiin token
-    ...              - Token tulostetaan myös lokitiedostoon
-    ...              - Lopuksi token tallennetaa testijoukon muuttujiin muita kutsuja varten
-    ${body}    Create Dictionary    username=elsikubios    password=750GmuduMdLX
-    ${response}    POST    url=POST http://localhost:5000/api/auth    json=${body}
+    [Arguments]    ${username}    ${password}    # Tämä määrittelee argumentit
+    ${body}    Create Dictionary    username=${username}    password=${password}
+    ${response}    POST    url=http://localhost:5000/api/auth/login    json=${body}
     Log    ${response.json()}
     ${token}    Set Variable    ${response.json()}[token]
     Log    ${token}
     Set Suite Variable    ${token}
-
-
