@@ -20,6 +20,13 @@ GET http://localhost:5000/api/kubios/user-info
 
 PATCH http://localhost:5000/api/kubios/userinfo
 
+
+### Käyttäjän poistaminen
+
+DELETE  http://localhost:5000/api/auth/delete/:id
+
+id = userId
+
 # HRV
 
 ### Hakee viimeiset 7 mittausta.

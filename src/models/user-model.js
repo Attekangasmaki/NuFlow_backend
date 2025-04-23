@@ -64,7 +64,7 @@ const selectUserById = async (userId) => {
   }
 };
 
-//Käyttäjän rekistöröinti
+//Käyttäjän rekisteröinti
 const insertUser = async (user) => {
   try {
     const [result] = await promisePool.query(
@@ -119,7 +119,31 @@ const selectUserByEmailAndPassword = async (email, password) => {
 };
 
 
+const selectUserlevel= async (email, password) => {
+  try {
+    const [rows] = await promisePool.query(
+      'SELECT user_level FROM Users WHERE email =? AND password = ?',
+      [email, password]
+    );
+    return rows[0];
+  } catch (error) {
+    console.error(error);
+    throw new Error('database error');
+  }
+};
 
+const deleteUserById = async (userId) => {
+  try {
+    const [result] = await promisePool.query(
+      'DELETE FROM Users WHERE user_id = ?',
+      [userId]
+    );
+    return result.affectedRows > 0;
+  } catch (error) {
+    console.error('Virhe tietokantaa käytettäessä:', error);
+    throw new Error('Database error');
+  }
+};
 
-export { getAllUsers, getAllProfessionals, selectUserById, insertUser, insertUserinfo, selectUserByEmailAndPassword, selectUserByEmail };
+export { getAllUsers, getAllProfessionals, selectUserById, insertUser, insertUserinfo, selectUserByEmailAndPassword, selectUserByEmail, selectUserlevel, deleteUserById};
 
