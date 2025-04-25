@@ -25,7 +25,7 @@ const entriesRouter = express.Router();
  * @apiError (404) NotFound No entries found for user.
  * @apiError (401) Unauthorized Missing or invalid token.
  */
-entriesRouter.get('/user/:id', authenticateToken, getEntriesByUserId);
+entriesRouter.get('/user', authenticateToken, getEntriesByUserId);
 
 
 /**

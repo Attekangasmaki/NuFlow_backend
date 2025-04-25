@@ -23,7 +23,7 @@ PATCH http://localhost:5000/api/kubios/userinfo
 
 ### Käyttäjän poistaminen
 
-DELETE  http://localhost:5000/api/auth/delete/:id
+DELETE http://localhost:5000/api/auth/delete/:id
 
 id = userId
 
@@ -129,7 +129,7 @@ PUT http://localhost:5000/api/entries/:id  id = entry_id
 
 ### Käyttäjän kaikkien päiväkirjamerkintöjen haku user_id perusteella.
 
-GET  http://localhost:5000/api/entries/user/:id
+GET  http://localhost:5000/api/entries/user
 
 
 

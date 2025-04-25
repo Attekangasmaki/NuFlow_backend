@@ -16,6 +16,7 @@ const authenticateToken = (req, res, next) => {
     console.log('Decoded Token:', decodedToken); // This should contain user data like user_id
 
     req.user = decodedToken; // Set the user data into the request
+    console.log('authenticateToken → req.user:', req.user);
     next();
   } catch (error) {
     console.error('JWT verification error:', error);

@@ -117,8 +117,8 @@ const syncWithLocalUser = async (kubiosUser) => {
       // Random password, quick workaround for the required field
       password: v4(),
     };
-    const newUserResult = await insertUser(newUser);
-    userId = newUserResult.user_id;
+    const newUserId = await insertUser(newUser);
+    userId = newUserId;
   } else {
     userId = result.user_id;
   }
