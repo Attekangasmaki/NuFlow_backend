@@ -137,8 +137,8 @@ POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-  "username": "atte.kangasmaki@metropolia.fi",
-  "password": "!Olen1212Ä!"
+  "username": "",
+  "password": ""
 }
 
 ### Post avatar
