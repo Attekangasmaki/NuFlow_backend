@@ -1,16 +1,3 @@
-/**
- * Authentication resource controller using Kubios API for login
-* @module controllers/auth-controller
-* @author mattpe <mattpe@metropolia.fi>
-* @requires jsonwebtoken
-* @requires bcryptjs
-* @requires dotenv
-* @requires models/user-model
-* @requires middlewares/error-handler
-* @exports postLogin
-* @exports getMe
-*/
-
 import 'dotenv/config';
 import jwt from 'jsonwebtoken';
 import fetch from 'node-fetch';
@@ -76,12 +63,8 @@ const kubiosLogin = async (username, password) => {
   return idToken;
 };
 
-/**
-* Get user info from Kubios API
-* @async
-* @param {string} idToken Kubios id token
-* @return {object} user User info
-*/
+
+
 const kubiosUserInfo = async (idToken) => {
   const headers = new Headers();
   headers.append('User-Agent', process.env.KUBIOS_USER_AGENT);
@@ -98,12 +81,7 @@ const kubiosUserInfo = async (idToken) => {
   }
 };
 
-/**
-* Sync Kubios user info with local db
-* @async
-* @param {object} kubiosUser User info from Kubios API
-* @return {number} userId User id in local db
-*/
+
 const syncWithLocalUser = async (kubiosUser) => {
   // Check if user exists in local db
   let userId;
@@ -126,14 +104,7 @@ const syncWithLocalUser = async (kubiosUser) => {
   return userId;
 };
 
-/**
-* User login
-* @async
-* @param {object} req
-* @param {object} res
-* @param {function} next
-* @return {object} user if username & password match
-*/
+
 const postLogin = async (req, res, next) => {
   const {username, password} = req.body;
   // console.log('login', req.body);
@@ -163,13 +134,7 @@ const postLogin = async (req, res, next) => {
   }
 };
 
-/**
-* Get user info based on token
-* @async
-* @param {object} req
-* @param {object} res
-* @return {object} user info
-*/
+
 const getMe = async (req, res) => {
   const user = await selectUserById(req.user.userId);
   res.json({user, kubios_token: req.user.kubiosIdToken});

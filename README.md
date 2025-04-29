@@ -27,6 +27,17 @@ DELETE http://localhost:5000/api/auth/delete/:id
 
 id = userId
 
+### Käyttäjän avatarlinkin lisääminen
+
+POST http://localhost:5000/api/auth/avatar/insert
+
+
+### Käyttäjän avatarlinkin haku.
+
+GET http://localhost:5000/api/auth/avatar
+
+
+
 # HRV
 
 ### Hakee viimeiset 7 mittausta.
@@ -73,7 +84,6 @@ GET http://localhost:5000/api/kubios/hrv/all
 
 POST http://localhost:5000/api/metrics/insert
 
-  "user_id": "4",
   "drug_use": "EN käytä midiksii",
   "diseases_medications": "En käytä lääkkeitäkään",
   "sleep": "Hyvin tullu nukuttuu täs viimeaikoin",
@@ -84,7 +94,6 @@ POST http://localhost:5000/api/metrics/insert
 PUT http://localhost:5000/api/metrics/:id id = metric_id
 
 {
-  "user_id": "4",
   "drug_use": "Alkanu käyttää kofeiinii",
   "diseases_medications": "Verenpainelääkkeet",
   "sleep": "Ei oo nukkumattii näkyny",
@@ -103,8 +112,7 @@ GET  http://localhost:5000/api/metrics/:id id = user_id
 POST http://localhost:5000/api/entries/insert
 
 {
- "user_id": "4",
- "entry_date": "2025-04-01",
+ "entry_date": "2025-04-28",
  "time_of_day": "morning",
  "sleep_duration": "2.5",
  "sleep_notes": "tosi kiva fiilis",
@@ -115,10 +123,9 @@ POST http://localhost:5000/api/entries/insert
 
 ### Päiväkirjamerkinnän tietojen muokkaaminen
 
-PUT http://localhost:5000/api/entries/:id  id = entry_id
+PUT http://localhost:5000/api/entries/:id id = entry_id
 
 {
- "user_id": "4",
  "entry_date": "2025-04-01",
  "time_of_day": "evening",
  "sleep_duration": "3.5",
@@ -127,7 +134,7 @@ PUT http://localhost:5000/api/entries/:id  id = entry_id
 }
 
 
-### Käyttäjän kaikkien päiväkirjamerkintöjen haku user_id perusteella.
+### Käyttäjän kaikkien päiväkirjamerkintöjen haku.
 
 GET  http://localhost:5000/api/entries/user
 

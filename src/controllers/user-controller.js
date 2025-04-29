@@ -1,4 +1,4 @@
-import { getAllUsers, selectUserById, insertUser, deleteUserById } from "../models/user-model.js";
+import { getAllUsers, selectUserById, insertUser, deleteUserById, insertAvatarUrl, selectAvatarUrl } from "../models/user-model.js";
 //import {validationResult} from 'express-validator';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
@@ -96,6 +96,56 @@ const removeUser = async (req, res, next) => {
   }
 };
 
+const getAvatarUrl = async (req, res) => {
+  try {
+    const user_id = req.user?.userId || req.user?.user_id;
 
-export{ addUser, getUserById, getUsers, removeUser };
+    if (!user_id) {
+      return res.status(401).json({ error: 'User ID missing from token' });
+    }
+
+    const result = await selectAvatarUrl(user_id);
+
+    if (!result || !result.avatar_url) {
+      return res.status(404).json({ error: 'Avatar not found' });
+    }
+
+    return res.status(200).json({ avatar_url: result.avatar_url });
+  } catch (error) {
+    console.error('Error retrieving avatar URL:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+// Controller-funktio avatarin päivittämiselle
+const updateAvatarUrl = async (req, res) => {
+  const { avatar_url } = req.body;
+  const user_id = req.user?.userId || req.user?.user_id; // Hae user_id tokenista
+
+  // Tarkistetaan että tarvittavat tiedot ovat saatavilla
+  if (!user_id) {
+    return res.status(401).json({ error: 'User ID missing from token' });
+  }
+
+  if (!avatar_url) {
+    return res.status(400).json({ error: 'Avatar URL is required' });
+  }
+
+  try {
+    const affectedRows = await insertAvatarUrl(user_id, { avatar_url });
+
+    if (affectedRows === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    return res.status(200).json({ message: 'Avatar updated successfully' });
+  } catch (error) {
+    console.error('Error updating avatar:', error);
+    return res.status(500).json({ error: 'Error updating avatar' });
+  }
+};
+
+
+export{ addUser, getUserById, getUsers, removeUser, getAvatarUrl, updateAvatarUrl };
 

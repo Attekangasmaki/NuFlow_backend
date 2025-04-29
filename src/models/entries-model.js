@@ -46,30 +46,6 @@ const selectEntriesByUserId = async (userId) => {
 
 
 
-const insertHrvEntry = async ({
-  entry_id,
-  hrv_date,
-  heart_rate,
-  rmssd,
-  mean_rr,
-  sdnn,
-  pns_index,
-  sns_index
-}) => {
-  try {
-    const [result] = await promisePool.query(
-      `INSERT INTO hrv_data (entry_id, hrv_date, heart_rate, rmssd, mean_rr, sdnn, pns_index, sns_index)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [entry_id, hrv_date, heart_rate, rmssd, mean_rr, sdnn, pns_index, sns_index]
-    );
-
-    return result;
-  } catch (error) {
-    console.error(error);
-    throw new Error('Database error');
-  }
-};
-
 const insertEntry = async (entry) => {
   try {
     const [result] = await promisePool.query(
@@ -131,4 +107,4 @@ const delEntry = async (entryId) => {
 
 
 
-export { selectEntryById, selectEntriesByUserId, getAllEntries, insertHrvEntry, insertEntry, updateEntry, delEntry };
+export { selectEntryById, selectEntriesByUserId, getAllEntries, insertEntry, updateEntry, delEntry };

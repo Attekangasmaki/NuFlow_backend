@@ -103,6 +103,22 @@ const insertUserinfo = async (user_id, user) => {
   }
 };
 
+const insertAvatarUrl = async (user_id, user) => {
+  try {
+    const [result] = await promisePool.query(
+      `UPDATE Users
+      SET avatar_url = ?
+      WHERE user_id = ?`,
+      [user.avatar_url, user_id]
+    );
+
+    console.log('User avatar updated', result);
+    return result.affectedRows; // Palautetaan päivitettyjen rivien määrä
+  } catch (error) {
+    console.error(error);
+    throw new Error('Database error');
+  }
+};
 
 
 const selectUserByEmailAndPassword = async (email, password) => {
@@ -132,6 +148,19 @@ const selectUserlevel= async (email, password) => {
   }
 };
 
+const selectAvatarUrl= async (userId) => {
+  try {
+    const [rows] = await promisePool.query(
+      'SELECT avatar_url FROM Users WHERE user_id = ?',
+      [userId]
+    );
+    return rows[0];
+  } catch (error) {
+    console.error(error);
+    throw new Error('database error');
+  }
+};
+
 const deleteUserById = async (userId) => {
   try {
     const [result] = await promisePool.query(
@@ -145,5 +174,5 @@ const deleteUserById = async (userId) => {
   }
 };
 
-export { getAllUsers, getAllProfessionals, selectUserById, insertUser, insertUserinfo, selectUserByEmailAndPassword, selectUserByEmail, selectUserlevel, deleteUserById};
+export { getAllUsers, getAllProfessionals, selectUserById, insertUser, insertUserinfo, selectUserByEmailAndPassword, selectUserByEmail, selectUserlevel, deleteUserById, insertAvatarUrl, selectAvatarUrl };
 

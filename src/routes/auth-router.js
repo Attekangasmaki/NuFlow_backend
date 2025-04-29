@@ -5,7 +5,7 @@ import { validationErrorHandler } from '../../middlewares/error-handler.js';
 import { body } from 'express-validator';
 import { getMe, postLogin } from '../controllers/kubios-auth-controller.js';
 import { professionalLogin } from '../controllers/auth-controller.js';
-import { removeUser } from '../controllers/user-controller.js';
+import { getAvatarUrl, removeUser, updateAvatarUrl } from '../controllers/user-controller.js';
 
 
 
@@ -51,6 +51,28 @@ authRouter.route('/professional-login')
 
 
 /**
+ * @api {post} /auth/avatar/insert Insert user avatar URL
+ * @apiName updateAvatarUrl
+ * @apiGroup Auth
+ * @apiPermission none
+ *
+ * @apiBody {String} email User email.
+ * @apiBody {String} password User password.
+ *
+ * @apiSuccess {String} token JWT token for authentication.
+ * @apiError (400) Bad request if url is not valid.
+ * @apiError (401) Unauthorized Invalid credentials.
+ */
+authRouter.route('/avatar/insert')
+.post(
+  authenticateToken,
+  body('avatarUrl')
+  .isURL().withMessage('Avatar URL must be a valid URL'),
+  updateAvatarUrl);
+
+
+
+/**
  * @api {get} /auth/me Get current authenticated user info
  * @apiName GetMe
  * @apiGroup Auth
@@ -62,6 +84,20 @@ authRouter.route('/professional-login')
  * @apiError (401) Unauthorized Missing or invalid token.
  */
 authRouter.get('/me', authenticateToken, getMe);
+
+
+/**
+ * @api {get} /auth/me Get current authenticated user info
+ * @apiName GetMe
+ * @apiGroup Auth
+ * @apiPermission user
+ *
+ * @apiHeader {String} Authorization Bearer token.
+ *
+ * @apiSuccess {Object} user Current avatar.
+ * @apiError (401) Unauthorized Missing or invalid token.
+ */
+authRouter.get('/avatar', authenticateToken, getAvatarUrl);
 
 
 /**
@@ -82,5 +118,7 @@ authRouter.get('/me', authenticateToken, getMe);
  * @apiError (500) ServerError Unexpected server error
  * */
 authRouter.delete('/delete/:id', authenticateToken, removeUser);
+
+
 
 export default authRouter;

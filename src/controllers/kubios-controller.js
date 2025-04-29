@@ -601,6 +601,4 @@ const getKubiosLast30Measurements = async (req, res, next) => {
 
 
 
-
-
 export { getLatestKubiosHrvValues, getAllKubiosHrvValues, getUserInfo, updateKubiosUserInfo, getKubiosHrvValuesLastMonth, getKubiosHrvValuesLastWeek, getKubiosHrvValuesByDate, getKubiosLast7Measurements, getKubiosLast30Measurements };

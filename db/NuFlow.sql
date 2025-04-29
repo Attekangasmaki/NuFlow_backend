@@ -6,6 +6,9 @@ DB_NAME=
 JWT_SECRET=
 JWT_EXPIRES_IN= */
 
+### Aja tämä komento SQL:ssä, komento lisää users tauluun avatar_url tietueen.
+ALTER TABLE users ADD COLUMN avatar_url VARCHAR(255);
+
 
 ### Aja nämä komennot SQL:ssä. Komennoilla muutettaan diary_entries taulun sarakkeiden tyypit kokonaisluvuksi,
 ja poistetaan turha taulu hrv_data.

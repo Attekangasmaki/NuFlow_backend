@@ -65,7 +65,7 @@ entriesRouter.post('/insert', authenticateToken,
   body('time_of_day').notEmpty().withMessage('Time of day is required').isIn(['morning', 'evening']).withMessage('Invalid time of day'),
   body('sleep_duration').notEmpty().withMessage('Sleep duration is required').isFloat({ min: 1, max: 5 }).withMessage('Sleep duration must be between 1 and 5'),
   body('sleep_notes').optional(),
-  body('current_mood').notEmpty().withMessage('Mood is required').isFloat({ min: 1, max: 5 }).withMessage('Sleep duration must be between 1 and 5'),
+  body('current_mood').notEmpty().withMessage('Mood is required').isFloat({ min: 1, max: 5 }).withMessage('Mood must be between 1 and 5'),
   body('activity').optional(),
   validationErrorHandler,
   postEntry);
