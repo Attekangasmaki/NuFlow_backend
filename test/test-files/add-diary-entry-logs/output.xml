@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.2.2 (Python 3.13.1 on win32)" generated="2025-04-28T15:22:19.002285" rpa="false" schemaversion="5">
+<suite id="s1" name="Add-Diary-Entry" source="C:\Users\attek\Web-kehitys\Backend\server-example-25\test\test-files\add-diary-entry.robot">
+<kw name="Authenticate user" type="SETUP">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-04-28T15:22:19.499559" level="INFO">${body} = {'username': 'elsikubios@gmail.com', 'password': '750GmuduMdLX'}</msg>
+<var>${body}</var>
+<arg>username=${username}</arg>
+<arg>password=${password}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-04-28T15:22:19.499160" elapsed="0.000445"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2025-04-28T15:22:19.506321" level="DEBUG">Starting new HTTP connection (1): localhost:5000</msg>
+<msg time="2025-04-28T15:22:22.491788" level="DEBUG">http://localhost:5000 "POST /api/auth/login HTTP/1.1" 200 1956</msg>
+<msg time="2025-04-28T15:22:22.492475" level="INFO">POST Request : url=http://localhost:5000/api/auth/login 
+ path_url=/api/auth/login 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '64', 'Content-Type': 'application/json'} 
+ body=b'{"username": "elsikubios@gmail.com", "password": "750GmuduMdLX"}' 
+ </msg>
+<msg time="2025-04-28T15:22:22.492639" level="INFO">POST Response : url=http://localhost:5000/api/auth/login 
+ status=200, reason=OK 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '1956', 'ETag': 'W/"7a4-1S4Kg15XGZbGdC+EI8gAmd21PNs"', 'Date': 'Mon, 28 Apr 2025 12:22:22 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"message":"Logged in successfully with Kubios","user":{"birthdate":"1982-01-01","email":"elsikubios@gmail.com","family_name":"Kubios","gender":"female","given_name":"Elsi","height":1.8,"hr_max":182,"hr_rest":60,"sub":"4cc31d1d-41db-4d5d-87c4-eb55519640ea","weight":70},"user_id":7,"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImt1Ymlvc0lkVG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lVV0UxYVhCNGFHNWZkRVJaT0UxVGRXNUxWR0pOVVNJc0luTjFZaUk2SWpSall6TXhaREZrTFRReFpHSXROR1ExWkMwNE4yTTBMV1ZpTlRVMU1UazJOREJsWVNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaU5HTmpNekZrTVdRdE5ERmtZaTAwWkRWa0xUZzNZelF0WldJMU5UVXhPVFkwTUdWaElpd2laMmwyWlc1ZmJtRnRaU0k2SWtWc2Mya2lMQ0poZFdRaU9pSXljamd6T0dWdmFXUXhkbVZpTUhGdWNXZHVPREZ4WVhWdE1DSXNJbVYyWlc1MFgybGtJam9pWWpVMlkyUXlNV0V0TldaaFppMDBNakZqTFdJNE5EQXROemczTmpKbU5EVm1ZV0l5SWl3aWRHOXJaVzVmZFhObElqb2lhV1FpTENKaGRYUm9YM1JwYldVaU9qRTNORFU0TkRJNU16Y3NJbVY0Y0NJNk1UYzBOVGcwTmpVek55d2lhV0YwSWpveE56UTFPRFF5T1RNM0xDSm1ZVzFwYkhsZmJtRnRaU0k2SWt0MVltbHZjeUlzSW1wMGFTSTZJbVJrTWpSak5UZzVMV1pqTUdRdE5ERmxNaTFoWmpOaUxUUm1PV1ExT0RBMllUTTNOeUlzSW1WdFlXbHNJam9pWld4emFXdDFZbWx2YzBCbmJXRnBiQzVqYjIwaWZRLkJzSjRxS192WXR5cWlkY2JyOFhFQzhFbXFnbklTQjhRS1liWC1GeV8yUVJSYll2ZFA0TlA4OXViMHBGLVFSYVJ5V2UzcW1kQkFhdWZKR3NNUFl3dzA4ajNMMERiUzk4U2xtdHRZdkdGRWF3MGMySlc3Z1dObGF5VFptb255YmFHT3VISW9fbUZCaWJmSTQtYVJpNHVFbERycWRtcjJIMW5xdndKVXRvN2xNOWVvYkJiUkktRTFOaDVfWWZvaHZ3Xzk0TGdKSnhuTmluU3FHUDBLNzhiNkdWQllyV1luMDh3UmxkQnB0ZnlfMnlNVVVleDJ6S1E3M1BfZW4tN0F1bUZJeThSb2JWejFEREJ5Q0hNcGtrdlRYVTNyZXpBOWpSYUtIRzk3aVhyODFuWWthOGx5dTRmTUFxeGdCakFXRDlQSTlwcEpuNWQyY25LTVBoSXFrU2NWQSIsImlhdCI6MTc0NTg0Mjk0MiwiZXhwIjoxNzQ1ODQ2NTQyfQ.fGc1U_A9l9OTzQSkc0POae8-VmxDhEXrVORmoAldN4E"} 
+ </msg>
+<msg time="2025-04-28T15:22:22.492830" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>url=${base_url}/auth/login</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2025-04-28T15:22:19.499751" elapsed="2.993109"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-04-28T15:22:22.493887" level="INFO">{'message': 'Logged in successfully with Kubios', 'user': {'birthdate': '1982-01-01', 'email': 'elsikubios@gmail.com', 'family_name': 'Kubios', 'gender': 'female', 'given_name': 'Elsi', 'height': 1.8, 'hr_max': 182, 'hr_rest': 60, 'sub': '4cc31d1d-41db-4d5d-87c4-eb55519640ea', 'weight': 70}, 'user_id': 7, 'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImt1Ymlvc0lkVG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lVV0UxYVhCNGFHNWZkRVJaT0UxVGRXNUxWR0pOVVNJc0luTjFZaUk2SWpSall6TXhaREZrTFRReFpHSXROR1ExWkMwNE4yTTBMV1ZpTlRVMU1UazJOREJsWVNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaU5HTmpNekZrTVdRdE5ERmtZaTAwWkRWa0xUZzNZelF0WldJMU5UVXhPVFkwTUdWaElpd2laMmwyWlc1ZmJtRnRaU0k2SWtWc2Mya2lMQ0poZFdRaU9pSXljamd6T0dWdmFXUXhkbVZpTUhGdWNXZHVPREZ4WVhWdE1DSXNJbVYyWlc1MFgybGtJam9pWWpVMlkyUXlNV0V0TldaaFppMDBNakZqTFdJNE5EQXROemczTmpKbU5EVm1ZV0l5SWl3aWRHOXJaVzVmZFhObElqb2lhV1FpTENKaGRYUm9YM1JwYldVaU9qRTNORFU0TkRJNU16Y3NJbVY0Y0NJNk1UYzBOVGcwTmpVek55d2lhV0YwSWpveE56UTFPRFF5T1RNM0xDSm1ZVzFwYkhsZmJtRnRaU0k2SWt0MVltbHZjeUlzSW1wMGFTSTZJbVJrTWpSak5UZzVMV1pqTUdRdE5ERmxNaTFoWmpOaUxUUm1PV1ExT0RBMllUTTNOeUlzSW1WdFlXbHNJam9pWld4emFXdDFZbWx2YzBCbmJXRnBiQzVqYjIwaWZRLkJzSjRxS192WXR5cWlkY2JyOFhFQzhFbXFnbklTQjhRS1liWC1GeV8yUVJSYll2ZFA0TlA4OXViMHBGLVFSYVJ5V2UzcW1kQkFhdWZKR3NNUFl3dzA4ajNMMERiUzk4U2xtdHRZdkdGRWF3MGMySlc3Z1dObGF5VFptb255YmFHT3VISW9fbUZCaWJmSTQtYVJpNHVFbERycWRtcjJIMW5xdndKVXRvN2xNOWVvYkJiUkktRTFOaDVfWWZvaHZ3Xzk0TGdKSnhuTmluU3FHUDBLNzhiNkdWQllyV1luMDh3UmxkQnB0ZnlfMnlNVVVleDJ6S1E3M1BfZW4tN0F1bUZJeThSb2JWejFEREJ5Q0hNcGtrdlRYVTNyZXpBOWpSYUtIRzk3aVhyODFuWWthOGx5dTRmTUFxeGdCakFXRDlQSTlwcEpuNWQyY25LTVBoSXFrU2NWQSIsImlhdCI6MTc0NTg0Mjk0MiwiZXhwIjoxNzQ1ODQ2NTQyfQ.fGc1U_A9l9OTzQSkc0POae8-VmxDhEXrVORmoAldN4E'}</msg>
+<arg>${response.json()}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-04-28T15:22:22.493024" elapsed="0.000960"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2025-04-28T15:22:22.494811" level="INFO">${token} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImt1Ymlvc0lkVG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV...</msg>
+<var>${token}</var>
+<arg>${response.json()}[token]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2025-04-28T15:22:22.494166" elapsed="0.000672"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-04-28T15:22:22.495026" level="INFO">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImt1Ymlvc0lkVG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lVV0UxYVhCNGFHNWZkRVJaT0UxVGRXNUxWR0pOVVNJc0luTjFZaUk2SWpSall6TXhaREZrTFRReFpHSXROR1ExWkMwNE4yTTBMV1ZpTlRVMU1UazJOREJsWVNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaU5HTmpNekZrTVdRdE5ERmtZaTAwWkRWa0xUZzNZelF0WldJMU5UVXhPVFkwTUdWaElpd2laMmwyWlc1ZmJtRnRaU0k2SWtWc2Mya2lMQ0poZFdRaU9pSXljamd6T0dWdmFXUXhkbVZpTUhGdWNXZHVPREZ4WVhWdE1DSXNJbVYyWlc1MFgybGtJam9pWWpVMlkyUXlNV0V0TldaaFppMDBNakZqTFdJNE5EQXROemczTmpKbU5EVm1ZV0l5SWl3aWRHOXJaVzVmZFhObElqb2lhV1FpTENKaGRYUm9YM1JwYldVaU9qRTNORFU0TkRJNU16Y3NJbVY0Y0NJNk1UYzBOVGcwTmpVek55d2lhV0YwSWpveE56UTFPRFF5T1RNM0xDSm1ZVzFwYkhsZmJtRnRaU0k2SWt0MVltbHZjeUlzSW1wMGFTSTZJbVJrTWpSak5UZzVMV1pqTUdRdE5ERmxNaTFoWmpOaUxUUm1PV1ExT0RBMllUTTNOeUlzSW1WdFlXbHNJam9pWld4emFXdDFZbWx2YzBCbmJXRnBiQzVqYjIwaWZRLkJzSjRxS192WXR5cWlkY2JyOFhFQzhFbXFnbklTQjhRS1liWC1GeV8yUVJSYll2ZFA0TlA4OXViMHBGLVFSYVJ5V2UzcW1kQkFhdWZKR3NNUFl3dzA4ajNMMERiUzk4U2xtdHRZdkdGRWF3MGMySlc3Z1dObGF5VFptb255YmFHT3VISW9fbUZCaWJmSTQtYVJpNHVFbERycWRtcjJIMW5xdndKVXRvN2xNOWVvYkJiUkktRTFOaDVfWWZvaHZ3Xzk0TGdKSnhuTmluU3FHUDBLNzhiNkdWQllyV1luMDh3UmxkQnB0ZnlfMnlNVVVleDJ6S1E3M1BfZW4tN0F1bUZJeThSb2JWejFEREJ5Q0hNcGtrdlRYVTNyZXpBOWpSYUtIRzk3aVhyODFuWWthOGx5dTRmTUFxeGdCakFXRDlQSTlwcEpuNWQyY25LTVBoSXFrU2NWQSIsImlhdCI6MTc0NTg0Mjk0MiwiZXhwIjoxNzQ1ODQ2NTQyfQ.fGc1U_A9l9OTzQSkc0POae8-VmxDhEXrVORmoAldN4E</msg>
+<arg>${token}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-04-28T15:22:22.494928" elapsed="0.000622"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2025-04-28T15:22:22.495871" level="INFO">${token} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImt1Ymlvc0lkVG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV...</msg>
+<arg>${token}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2025-04-28T15:22:22.495684" elapsed="0.000226"/>
+</kw>
+<arg>${username}</arg>
+<arg>${password}</arg>
+<doc>Kirjaudutaan sisään ja tallennetaan token.</doc>
+<status status="PASS" start="2025-04-28T15:22:19.497670" elapsed="2.998306"/>
+</kw>
+<test id="s1-t1" name="Insert Diary Entry Test" line="12">
+<kw name="Insert Diary Entry">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-04-28T15:22:22.497492" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImt1Ymlvc0lkVG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJb...</msg>
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-04-28T15:22:22.497135" elapsed="0.000401"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2025-04-28T15:22:22.498297" level="INFO">${body} = {'entry_date': '2025-04-28', 'time_of_day': 'morning', 'sleep_duration': '2.5', 'sleep_notes': 'tosi kiva fiilis', 'current_mood': '4', 'activity': 'Lenkillä kävin tossa'}</msg>
+<var>${body}</var>
+<arg>entry_date=2025-04-28</arg>
+<arg>time_of_day=morning</arg>
+<arg>sleep_duration=2.5</arg>
+<arg>sleep_notes=tosi kiva fiilis</arg>
+<arg>current_mood=4</arg>
+<arg>activity=Lenkillä kävin tossa</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2025-04-28T15:22:22.497685" elapsed="0.000656"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2025-04-28T15:22:22.499764" level="DEBUG">Starting new HTTP connection (1): localhost:5000</msg>
+<msg time="2025-04-28T15:22:24.552996" level="DEBUG">http://localhost:5000 "POST /api/entries/insert HTTP/1.1" 201 25</msg>
+<msg time="2025-04-28T15:22:24.553501" level="INFO">POST Request : url=http://localhost:5000/api/entries/insert 
+ path_url=/api/entries/insert 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImt1Ymlvc0lkVG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lVV0UxYVhCNGFHNWZkRVJaT0UxVGRXNUxWR0pOVVNJc0luTjFZaUk2SWpSall6TXhaREZrTFRReFpHSXROR1ExWkMwNE4yTTBMV1ZpTlRVMU1UazJOREJsWVNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaU5HTmpNekZrTVdRdE5ERmtZaTAwWkRWa0xUZzNZelF0WldJMU5UVXhPVFkwTUdWaElpd2laMmwyWlc1ZmJtRnRaU0k2SWtWc2Mya2lMQ0poZFdRaU9pSXljamd6T0dWdmFXUXhkbVZpTUhGdWNXZHVPREZ4WVhWdE1DSXNJbVYyWlc1MFgybGtJam9pWWpVMlkyUXlNV0V0TldaaFppMDBNakZqTFdJNE5EQXROemczTmpKbU5EVm1ZV0l5SWl3aWRHOXJaVzVmZFhObElqb2lhV1FpTENKaGRYUm9YM1JwYldVaU9qRTNORFU0TkRJNU16Y3NJbVY0Y0NJNk1UYzBOVGcwTmpVek55d2lhV0YwSWpveE56UTFPRFF5T1RNM0xDSm1ZVzFwYkhsZmJtRnRaU0k2SWt0MVltbHZjeUlzSW1wMGFTSTZJbVJrTWpSak5UZzVMV1pqTUdRdE5ERmxNaTFoWmpOaUxUUm1PV1ExT0RBMllUTTNOeUlzSW1WdFlXbHNJam9pWld4emFXdDFZbWx2YzBCbmJXRnBiQzVqYjIwaWZRLkJzSjRxS192WXR5cWlkY2JyOFhFQzhFbXFnbklTQjhRS1liWC1GeV8yUVJSYll2ZFA0TlA4OXViMHBGLVFSYVJ5V2UzcW1kQkFhdWZKR3NNUFl3dzA4ajNMMERiUzk4U2xtdHRZdkdGRWF3MGMySlc3Z1dObGF5VFptb255YmFHT3VISW9fbUZCaWJmSTQtYVJpNHVFbERycWRtcjJIMW5xdndKVXRvN2xNOWVvYkJiUkktRTFOaDVfWWZvaHZ3Xzk0TGdKSnhuTmluU3FHUDBLNzhiNkdWQllyV1luMDh3UmxkQnB0ZnlfMnlNVVVleDJ6S1E3M1BfZW4tN0F1bUZJeThSb2JWejFEREJ5Q0hNcGtrdlRYVTNyZXpBOWpSYUtIRzk3aVhyODFuWWthOGx5dTRmTUFxeGdCakFXRDlQSTlwcEpuNWQyY25LTVBoSXFrU2NWQSIsImlhdCI6MTc0NTg0Mjk0MiwiZXhwIjoxNzQ1ODQ2NTQyfQ.fGc1U_A9l9OTzQSkc0POae8-VmxDhEXrVORmoAldN4E', 'Content-Type': 'application/json', 'Content-Length': '181'} 
+ body=b'{"entry_date": "2025-04-28", "time_of_day": "morning", "sleep_duration": "2.5", "sleep_notes": "tosi kiva fiilis", "current_mood": "4", "activity": "Lenkill\\u00e4 k\\u00e4vin tossa"}' 
+ </msg>
+<msg time="2025-04-28T15:22:24.553571" level="INFO">POST Response : url=http://localhost:5000/api/entries/insert 
+ status=201, reason=Created 
+ headers={'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '25', 'ETag': 'W/"19-O3TmuzijMyzLqVBIe7g2RayG3FM"', 'Date': 'Mon, 28 Apr 2025 12:22:24 GMT', 'Connection': 'keep-alive', 'Keep-Alive': 'timeout=5'} 
+ body={"message":"Entry added"} 
+ </msg>
+<msg time="2025-04-28T15:22:24.553696" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<arg>url=${base_url}/entries/insert</arg>
+<arg>headers=${headers}</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2025-04-28T15:22:22.498462" elapsed="2.055259"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-04-28T15:22:24.554406" level="INFO">201</msg>
+<arg>${response.status_code}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-04-28T15:22:24.553903" elapsed="0.000544"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2025-04-28T15:22:24.554897" level="INFO">{'message': 'Entry added'}</msg>
+<arg>${response.json()}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2025-04-28T15:22:24.554541" elapsed="0.000394"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<msg time="2025-04-28T15:22:24.555365" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>201</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2025-04-28T15:22:24.555016" elapsed="0.000410"/>
+</kw>
+<doc>Syötetään uusi päiväkirjamerkintä palveluun.</doc>
+<status status="PASS" start="2025-04-28T15:22:22.496783" elapsed="2.058708"/>
+</kw>
+<doc>Testaa, että päiväkirjamerkinnän lisääminen onnistuu kirjautumisen jälkeen.</doc>
+<status status="PASS" start="2025-04-28T15:22:22.496056" elapsed="2.059712"/>
+</test>
+<status status="PASS" start="2025-04-28T15:22:19.004099" elapsed="5.552677"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Add-Diary-Entry" id="s1" pass="1" fail="0" skip="0">Add-Diary-Entry</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
