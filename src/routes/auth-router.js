@@ -4,7 +4,6 @@ import { authenticateToken } from '../../middlewares/authentication.js';
 import { validationErrorHandler } from '../../middlewares/error-handler.js';
 import { body } from 'express-validator';
 import { getMe, postLogin } from '../controllers/kubios-auth-controller.js';
-import { professionalLogin } from '../controllers/auth-controller.js';
 import { getAvatarUrl, removeUser, updateAvatarUrl } from '../controllers/user-controller.js';
 
 
@@ -29,25 +28,7 @@ authRouter.route('/login')
   validationErrorHandler,
   postLogin);
 
-/**
- * @api {post} /auth/login Professional login
- * @apiName ProfessionalLogin
- * @apiGroup Auth
- * @apiPermission none
- *
- * @apiBody {String} email User email.
- * @apiBody {String} password User password.
- *
- * @apiSuccess {String} token JWT token for authentication.
- * @apiError (400) ValidationError Email or password missing or invalid.
- * @apiError (401) Unauthorized Invalid credentials.
- */
-authRouter.route('/professional-login')
-.post(
-  body('email'),
-  body('password').notEmpty().withMessage('Password is required'),
-  validationErrorHandler,
-  professionalLogin);
+
 
 
 /**

@@ -1,6 +1,7 @@
 import promisePool from '../utils/database.js';
 
 
+
 const getAllEntries = async () => {
   const [rows] = await promisePool.query('SELECT entry_id, user_id, entry_date, time_of_day, sleep_duration, sleep_notes, current_mood, activity, professional_comment FROM diary_entries');
   console.log(rows);

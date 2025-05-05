@@ -6,22 +6,6 @@ DB_NAME=
 JWT_SECRET=
 JWT_EXPIRES_IN= */
 
-### Aja tämä komento SQL:ssä, komento lisää users tauluun avatar_url tietueen.
-ALTER TABLE users ADD COLUMN avatar_url VARCHAR(255);
-
-
-### Aja nämä komennot SQL:ssä. Komennoilla muutettaan diary_entries taulun sarakkeiden tyypit kokonaisluvuksi,
-ja poistetaan turha taulu hrv_data.
-
-UPDATE diary_entries SET sleep_duration = 3.0;
-ALTER TABLE diary_entries MODIFY sleep_duration FLOAT;
-UPDATE diary_entries SET current_mood = 3.0;
-ALTER TABLE diary_entries MODIFY current_mood FLOAT;
-DELETE * from hrv_data;
-DROP TABLE hrv_data;
-
-
-
 ### Tietokannanluontikoodi
 
 CREATE DATABASE NuFlow;
@@ -63,18 +47,6 @@ CREATE TABLE diary_entries (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
-CREATE TABLE hrv_data (
-    hrv_id INT PRIMARY KEY AUTO_INCREMENT,
-    entry_id INT NOT NULL,
-    hrv_date DATE NOT NULL,
-    heart_rate INT NOT NULL,
-    rmssd DECIMAL(10,2) NOT NULL,
-    mean_rr DECIMAL(10,2) NOT NULL,
-    sdnn DECIMAL(10,2) NOT NULL,
-    pns_index DECIMAL(10,2) NOT NULL,
-    sns_index DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (entry_id) REFERENCES diary_entries(entry_id) ON DELETE CASCADE
-);
 
 INSERT INTO users (email, password, first_name, last_name, birthday, height, weight, gender, user_level) VALUES
 ('patient@example.com', 'hashedpassword1', 'Potilas', 'Pekka', '1990-05-15', 180.5, 75.0, 'male', 'user'),
@@ -91,7 +63,22 @@ INSERT INTO diary_entries (user_id, entry_date, time_of_day, sleep_duration, sle
 (5, '2024-03-25', 'evening', 4, 'Woke up twice', 3, 'Yoga'),
 (5, '2024-03-26', 'morning', 3, 'Felt refreshed', 5, 'Meditation');
 
-INSERT INTO hrv_data (entry_id, hrv_date, heart_rate, rmssd, mean_rr, sdnn, pns_index, sns_index) VALUES
-(1, '2024-03-24', 60, 45.3, 980.2, 35.7, 2.1, 1.5),
-(2, '2024-03-24', 70, 40.1, 900.5, 30.2, 1.8, 2.2),
-(3, '2024-03-24', 65, 50.2, 1020.0, 40.1, 2.5, 1.2);
+
+
+### Aja nämä komennot SQL:ssä. Komennoilla muutettaan diary_entries taulun sarakkeiden tyypit kokonaisluvuksi,
+ja poistetaan turha taulu hrv_data.
+
+UPDATE diary_entries SET sleep_duration = 3.0;
+ALTER TABLE diary_entries MODIFY sleep_duration FLOAT;
+UPDATE diary_entries SET current_mood = 3.0;
+ALTER TABLE diary_entries MODIFY current_mood FLOAT;
+DELETE * from hrv_data;
+DROP TABLE hrv_data;
+
+
+### Aja tämä komento SQL:ssä, komento lisää users tauluun avatar_url tietueen.
+ALTER TABLE users ADD COLUMN avatar_url VARCHAR(255);
+
+
+
+

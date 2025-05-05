@@ -191,40 +191,7 @@ const getUserInfo = async (req, res, next) => {
   }
 };
 
-/* const getUserKubiosAndSave = async (req, res, next) => {
-  try {
-    const { kubiosIdToken, user_id } = req.user;
 
-    if (!kubiosIdToken) {
-      return res.status(400).json({ message: 'Missing Kubios ID token.' });
-    }
-
-    const headers = new Headers();
-    headers.append('User-Agent', process.env.KUBIOS_USER_AGENT || 'Default-Agent');
-    headers.append('Authorization', kubiosIdToken);
-
-    const response = await fetch(
-      'https://analysis.kubioscloud.com/v2/result/self?from=2022-01-01T00%3A00%3A00%2B00%3A00',
-      {
-        method: 'GET',
-        headers: headers,
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`Kubios API error: ${response.status}`);
-    }
-
-    const kubiosData = await response.json();
-
-    await insertKubiosHrvData(user_id, kubiosData);
-
-    res.status(200).json({ message: 'Kubios HRV data saved.' });
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-}; */
 const getAllKubiosHrvValues = async (req, res, next) => {
   try {
     const { kubiosIdToken } = req.user;

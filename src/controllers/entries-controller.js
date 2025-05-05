@@ -1,10 +1,7 @@
-import { getAllEntries, insertEntry, selectEntryById, selectEntriesByUserId, delEntry, updateEntry } from "../models/entries-model.js";
+import { insertEntry, selectEntryById, selectEntriesByUserId, delEntry, updateEntry } from "../models/entries-model.js";
+import promisePool from '../utils/database.js';
 
 
-const getEntries = async (req, res) => {
-  const entries = await getAllEntries();
-  res.json(entries);
-};
 
 const getEntriesById = async (req, res, next) => {
   const entryId = req.params.id;
@@ -41,17 +38,33 @@ const getEntriesByUserId = async (req, res, next) => {
 
 
 const postEntry = async (req, res, next) => {
-  // req.user.user_id
   const newEntry = req.body;
   newEntry.user_id = req.user.userId;
+
   try {
     console.log('✅ Validated entry:', newEntry);
-    await insertEntry(newEntry);
-    res.status(201).json({message: 'Entry added'});
+
+    // Tarkista, onko merkintä jo olemassa samalle päivälle ja kellonajalle käyttäjällä
+    const [existing] = await promisePool.query(
+      'SELECT entry_id FROM diary_entries WHERE user_id = ? AND entry_date = ? AND time_of_day = ?',
+      [newEntry.user_id, newEntry.entry_date, newEntry.time_of_day]
+    );
+
+    if (existing.length > 0) {
+      // Päivitä olemassa oleva merkintä
+      const entryId = existing[0].entry_id;
+      await updateEntry(entryId, newEntry);
+      res.status(200).json({ message: 'Entry updated' });
+    } else {
+      // Lisää uusi merkintä
+      await insertEntry(newEntry);
+      res.status(201).json({ message: 'Entry added' });
+    }
   } catch (error) {
     next(error);
   }
- };
+};
+
 
  const putEntry = async (req, res) => {
   try {
@@ -71,4 +84,4 @@ const deleteEntry = async (req, res) => {
   }
 };
 
-export{ getEntries, getEntriesById, getEntriesByUserId, postEntry, putEntry, deleteEntry };
+export{ getEntriesById, getEntriesByUserId, postEntry, putEntry, deleteEntry };

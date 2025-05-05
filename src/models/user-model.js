@@ -27,14 +27,6 @@ const getAllUsers = async () => {
   return rows;
 }
 
-const getAllProfessionals = async () => {
-  const [rows] = await promisePool.query(
-    'SELECT email, first_name, last_name FROM Users WHERE user_level = professional',
-  );
-  console.log('getAllUser', rows);
-  return rows;
-}
-
 //Käyttäjän tietojen haku ID:n perusteella
 const selectUserById = async (userId) => {
   try {
@@ -174,5 +166,5 @@ const deleteUserById = async (userId) => {
   }
 };
 
-export { getAllUsers, getAllProfessionals, selectUserById, insertUser, insertUserinfo, selectUserByEmailAndPassword, selectUserByEmail, selectUserlevel, deleteUserById, insertAvatarUrl, selectAvatarUrl };
+export { getAllUsers, selectUserById, insertUser, insertUserinfo, selectUserByEmailAndPassword, selectUserByEmail, selectUserlevel, deleteUserById, insertAvatarUrl, selectAvatarUrl };
 
