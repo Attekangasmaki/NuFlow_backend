@@ -47,8 +47,8 @@ const postEntry = async (req, res, next) => {
 
     // Tarkista, onko merkintä jo olemassa samalle päivälle ja kellonajalle käyttäjällä
     const [existing] = await promisePool.query(
-      'SELECT entry_id FROM diary_entries WHERE user_id = ? AND entry_date = ? AND time_of_day = ?',
-      [newEntry.user_id, newEntry.entry_date, newEntry.time_of_day]
+      'SELECT entry_id FROM diary_entries WHERE user_id = ? AND entry_date = ?',
+      [newEntry.user_id, newEntry.entry_date]
     );
 
     if (existing.length > 0) {
