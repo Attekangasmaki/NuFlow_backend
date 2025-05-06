@@ -5,9 +5,10 @@ import entryRouter from './routes/entries-router.js';
 import authRouter from './routes/auth-router.js';
 import kubiosRouter from './routes/kubios-router.js';
 import { notFoundHandler, errorHandler } from '../middlewares/error-handler.js';
-const hostname = '127.0.0.1';
+const hostname = '0.0.0.0';
 const app = express();
 const port = 5000;
+
 
 
 app.use(cors());
