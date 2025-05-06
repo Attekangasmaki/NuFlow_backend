@@ -4,7 +4,7 @@ import promisePool from '../utils/database.js';
 // Hakee käyttäjätiedot sähköpostin perusteella
 const selectUserByEmail = async (email) => {
   try {
-    const sql = 'SELECT * FROM Users WHERE email=?';
+    const sql = 'SELECT * FROM users WHERE email=?';
     const params = [email];
     const [rows] = await promisePool.query(sql, params);
     // console.log(rows);
@@ -32,7 +32,7 @@ const selectUserById = async (userId) => {
     console.log("🛠 Haetaan käyttäjää ID:", userId);
 
     const [rows] = await promisePool.query(
-      'SELECT user_id, email, password, first_name, last_name, birthday, height, weight, gender, user_level FROM Users WHERE user_id = ?',
+      'SELECT user_id, email, password, first_name, last_name, birthday, height, weight, gender, user_level FROM users WHERE user_id = ?',
       [userId]
     );
 
@@ -55,7 +55,7 @@ const selectUserById = async (userId) => {
 const insertUser = async (user) => {
   try {
     const [result] = await promisePool.query(
-      'INSERT INTO Users (email, password) VALUES (?, ?)',
+      'INSERT INTO users (email, password) VALUES (?, ?)',
       [user.email, user.password],
     );
     console.log('insertUser', result);
@@ -71,7 +71,7 @@ const insertUser = async (user) => {
 const insertUserinfo = async (user_id, user) => {
   try {
     const [result] = await promisePool.query(
-      `UPDATE Users
+      `UPDATE users
        SET first_name = ?,
            last_name = ?,
            birthday = ?,
@@ -94,7 +94,7 @@ const insertUserinfo = async (user_id, user) => {
 const insertAvatarUrl = async (user_id, user) => {
   try {
     const [result] = await promisePool.query(
-      `UPDATE Users
+      `UPDATE users
       SET avatar_url = ?
       WHERE user_id = ?`,
       [user.avatar_url, user_id]
@@ -112,7 +112,7 @@ const insertAvatarUrl = async (user_id, user) => {
 const selectUserByEmailAndPassword = async (email, password) => {
   try {
     const [rows] = await promisePool.query(
-      'SELECT user_id, email, password, first_name, last_name, birthday, height, weight, gender, user_level FROM Users WHERE email =? AND password = ?',
+      'SELECT user_id, email, password, first_name, last_name, birthday, height, weight, gender, user_level FROM users WHERE email =? AND password = ?',
       [email, password]
     );
     return rows[0];
@@ -127,7 +127,7 @@ const selectUserByEmailAndPassword = async (email, password) => {
 const selectAvatarUrl= async (userId) => {
   try {
     const [rows] = await promisePool.query(
-      'SELECT avatar_url FROM Users WHERE user_id = ?',
+      'SELECT avatar_url FROM users WHERE user_id = ?',
       [userId]
     );
     return rows[0];
@@ -141,7 +141,7 @@ const selectAvatarUrl= async (userId) => {
 const deleteUserById = async (userId) => {
   try {
     const [result] = await promisePool.query(
-      'DELETE FROM Users WHERE user_id = ?',
+      'DELETE FROM users WHERE user_id = ?',
       [userId]
     );
     return result.affectedRows > 0;
