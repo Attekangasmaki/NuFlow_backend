@@ -1,13 +1,4 @@
-/* Muista tehdä itsellesi .env tiedosto, jossa on seuraavat muuttujat:
-DB_HOST=
-DB_USER=
-USER_PW=
-DB_NAME=
-JWT_SECRET=
-JWT_EXPIRES_IN= */
-
-### Tietokannanluontikoodi
-
+DROP DATABASE IF EXISTS NuFlow;
 CREATE DATABASE NuFlow;
 USE NuFlow;
 
@@ -48,35 +39,13 @@ CREATE TABLE diary_entries (
 );
 
 
-INSERT INTO users (email, password, first_name, last_name, birthday, height, weight, gender, user_level) VALUES
-('patient@example.com', 'hashedpassword1', 'Potilas', 'Pekka', '1990-05-15', 180.5, 75.0, 'male', 'user'),
-('doctor@example.com', 'hashedpassword2', 'Ammattilainen', 'Antti', '1985-10-22', 165.0, 65.0, 'female', 'professional'),
-('user3@example.com', 'hashedpassword3', 'Joonas', 'Johnson', '1995-07-12', 172.0, 68.0, 'female', 'moderator');
-
-INSERT INTO health_metrics (user_id, drug_use, diseases_medications, sleep, self_assessment) VALUES
-(1, 'None', 'Hypertension', '7 hours', 'Feeling good'),
-(2, 'Occasional alcohol', 'None', '6 hours', 'Feeling tired'),
-(3, 'None', 'Asthma', '8 hours', 'Feeling excellent');
-
-INSERT INTO diary_entries (user_id, entry_date, time_of_day, sleep_duration, sleep_notes, current_mood, activity) VALUES
-(5, '2024-03-24', 'morning', 3, 'Slept well', 4, 'Jogging'),
-(5, '2024-03-25', 'evening', 4, 'Woke up twice', 3, 'Yoga'),
-(5, '2024-03-26', 'morning', 3, 'Felt refreshed', 5, 'Meditation');
-
-
-
-### Aja nämä komennot SQL:ssä. Komennoilla muutettaan diary_entries taulun sarakkeiden tyypit kokonaisluvuksi,
-ja poistetaan turha taulu hrv_data.
 
 UPDATE diary_entries SET sleep_duration = 3.0;
 ALTER TABLE diary_entries MODIFY sleep_duration FLOAT;
 UPDATE diary_entries SET current_mood = 3.0;
 ALTER TABLE diary_entries MODIFY current_mood FLOAT;
-DELETE * from hrv_data;
-DROP TABLE hrv_data;
 
 
-### Aja tämä komento SQL:ssä, komento lisää users tauluun avatar_url tietueen.
 ALTER TABLE users ADD COLUMN avatar_url VARCHAR(255);
 
 

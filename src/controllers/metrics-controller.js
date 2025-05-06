@@ -1,5 +1,7 @@
 import { selectMetricByUserId, insertHealthmetrics, updateHealthmetrics } from '../models/metrics-model.js';
 
+
+// Controller-funktio, joka hakee käyttäjän metricit ID:n perusteella
 const getMetricById = async (req, res, next) => {
   console.log('getMetricById', req.params.id);
   try {
@@ -16,7 +18,7 @@ const getMetricById = async (req, res, next) => {
 };
 
 
-
+//Controller-funktio, joka hakee käyttäjän metricit käyttäjätunnuksen perusteella
 const getMetricByUserId = async (req, res, next) => {
   console.log('getMetricById', req.user.userId);
   try {
@@ -32,6 +34,8 @@ const getMetricByUserId = async (req, res, next) => {
   }
 };
 
+
+//Controller-funktio, joka lisää uuden metricin
 const postMetric = async (req, res, next) => {
   const newMetric = req.body;
   console.log("User ID from token:", req.user?.user_id);// Oletetaan, että käyttäjä-ID saadaan käyttäjän tokenista
@@ -46,7 +50,7 @@ const postMetric = async (req, res, next) => {
   }
 };
 
-
+//Controller-funktio, joka päivittää olemassa olevan metricin
 const putMetric = async (req, res, next) => {
   const metricId = req.params.id;
   const metricData = req.body;

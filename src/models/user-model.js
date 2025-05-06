@@ -1,5 +1,7 @@
 import promisePool from '../utils/database.js';
 
+
+// Hakee käyttäjätiedot sähköpostin perusteella
 const selectUserByEmail = async (email) => {
   try {
     const sql = 'SELECT * FROM Users WHERE email=?';
@@ -19,13 +21,6 @@ const selectUserByEmail = async (email) => {
   }
 };
 
-const getAllUsers = async () => {
-  const [rows] = await promisePool.query(
-    'SELECT email, first_name, last_name, birthday, height, weight, gender FROM Users WHERE user_level = user',
-  );
-  console.log('getAllUser', rows);
-  return rows;
-}
 
 //Käyttäjän tietojen haku ID:n perusteella
 const selectUserById = async (userId) => {
@@ -95,6 +90,7 @@ const insertUserinfo = async (user_id, user) => {
   }
 };
 
+//Käyttäjän avatarin lisäys
 const insertAvatarUrl = async (user_id, user) => {
   try {
     const [result] = await promisePool.query(
@@ -112,7 +108,7 @@ const insertAvatarUrl = async (user_id, user) => {
   }
 };
 
-
+//Hakee käyttäjän tiedot sähköpostin ja salasanan perusteella
 const selectUserByEmailAndPassword = async (email, password) => {
   try {
     const [rows] = await promisePool.query(
@@ -127,19 +123,7 @@ const selectUserByEmailAndPassword = async (email, password) => {
 };
 
 
-const selectUserlevel= async (email, password) => {
-  try {
-    const [rows] = await promisePool.query(
-      'SELECT user_level FROM Users WHERE email =? AND password = ?',
-      [email, password]
-    );
-    return rows[0];
-  } catch (error) {
-    console.error(error);
-    throw new Error('database error');
-  }
-};
-
+//Hakee käyttäjän avatarin URL:n käyttäjän ID:n perusteella
 const selectAvatarUrl= async (userId) => {
   try {
     const [rows] = await promisePool.query(
@@ -153,6 +137,7 @@ const selectAvatarUrl= async (userId) => {
   }
 };
 
+//Poistaa käyttäjän ID:n perusteella
 const deleteUserById = async (userId) => {
   try {
     const [result] = await promisePool.query(
@@ -166,5 +151,5 @@ const deleteUserById = async (userId) => {
   }
 };
 
-export { getAllUsers, selectUserById, insertUser, insertUserinfo, selectUserByEmailAndPassword, selectUserByEmail, selectUserlevel, deleteUserById, insertAvatarUrl, selectAvatarUrl };
+export { selectUserById, insertUser, insertUserinfo, selectUserByEmailAndPassword, selectUserByEmail, deleteUserById, insertAvatarUrl, selectAvatarUrl };
 

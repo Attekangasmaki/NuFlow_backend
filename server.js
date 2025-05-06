@@ -8,6 +8,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
+
 // Palvele docs-kansio staattisena tiedostona
 app.use('/docs', express.static(path.join(__dirname, 'docs')));
 

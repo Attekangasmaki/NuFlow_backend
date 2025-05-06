@@ -12,13 +12,7 @@ import {
 // Kubios API base URL should be set in .env
 const baseUrl = process.env.KUBIOS_API_URI;
 
-/**
-* Creates a POST login request to Kubios API
-* @async
-* @param {string} username Username in Kubios
-* @param {string} password Password in Kubios
-* @return {string} idToken Kubios id token
-*/
+// Funktio, joka suorittaa kirjautumisen Kubioksen kautta
 const kubiosLogin = async (username, password) => {
   const csrf = v4();
   const headers = new Headers();
@@ -64,7 +58,7 @@ const kubiosLogin = async (username, password) => {
 };
 
 
-
+//Hakee käyttäjän tiedot Kubioksesta
 const kubiosUserInfo = async (idToken) => {
   const headers = new Headers();
   headers.append('User-Agent', process.env.KUBIOS_USER_AGENT);
@@ -82,6 +76,7 @@ const kubiosUserInfo = async (idToken) => {
 };
 
 
+// Synkronisoi Kubios-käyttäjätiedot paikalliseen tietokantaan
 const syncWithLocalUser = async (kubiosUser) => {
   // Check if user exists in local db
   let userId;
@@ -104,7 +99,7 @@ const syncWithLocalUser = async (kubiosUser) => {
   return userId;
 };
 
-
+// Controller-funktio kirjautumiseen
 const postLogin = async (req, res, next) => {
   const {username, password} = req.body;
   // console.log('login', req.body);
@@ -134,7 +129,7 @@ const postLogin = async (req, res, next) => {
   }
 };
 
-
+// Controller-funktio käyttäjän tietojen hakemiseen
 const getMe = async (req, res) => {
   const user = await selectUserById(req.user.userId);
   res.json({user, kubios_token: req.user.kubiosIdToken});

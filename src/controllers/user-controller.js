@@ -1,17 +1,12 @@
-import { getAllUsers, selectUserById, insertUser, deleteUserById, insertAvatarUrl, selectAvatarUrl } from "../models/user-model.js";
-//import {validationResult} from 'express-validator';
+import { selectUserById, insertUser, deleteUserById, insertAvatarUrl, selectAvatarUrl } from "../models/user-model.js";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import 'dotenv/config';
 import { customError } from '../../middlewares/error-handler.js';
 
 
-const getUsers = async (req, res) => {
-  const users = await getAllUsers();
-  res.json(users);
-};
 
-
+//Controller-funktio käyttäjän lisäämsiseen tietokantaan
 const addUser = async (req, res, next) => {
   console.log('addUser request body', req.body);
 
@@ -48,7 +43,7 @@ const addUser = async (req, res, next) => {
 
 
 
-
+//Controller-funktio käyttäjän hakemiseen ID:n perusteella
 const getUserById = async (req, res, next) => {
   const id = parseInt(req.params.id, 10);
   console.log("🛠 Kutsuttiin getUserById ID:llä", id);
@@ -69,7 +64,7 @@ const getUserById = async (req, res, next) => {
 };
 
 
-
+//Controller-funktio käyttäjän poistamiseen
 const removeUser = async (req, res, next) => {
   console.log('removeUser request params', req.params);
 
@@ -96,6 +91,7 @@ const removeUser = async (req, res, next) => {
   }
 };
 
+//Controller-funktio avatarin hakemiseen
 const getAvatarUrl = async (req, res) => {
   try {
     const user_id = req.user?.userId || req.user?.user_id;
@@ -147,5 +143,5 @@ const updateAvatarUrl = async (req, res) => {
 };
 
 
-export{ addUser, getUserById, getUsers, removeUser, getAvatarUrl, updateAvatarUrl };
+export{ addUser, getUserById, removeUser, getAvatarUrl, updateAvatarUrl };
 

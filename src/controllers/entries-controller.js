@@ -2,7 +2,7 @@ import { insertEntry, selectEntryById, selectEntriesByUserId, delEntry, updateEn
 import promisePool from '../utils/database.js';
 
 
-
+//Hakee merkinnät ID:n perusteella
 const getEntriesById = async (req, res, next) => {
   const entryId = req.params.id;
   console.log('Haetaan aktiviteetti ID:', entryId);
@@ -18,6 +18,7 @@ const getEntriesById = async (req, res, next) => {
   }
 };
 
+//Hakee merkinnät käyttäjätunnuksen perusteella
 const getEntriesByUserId = async (req, res, next) => {
   console.log('getEntriesByUserId kutsuttu', req.user); // Debuggausta
 
@@ -36,7 +37,7 @@ const getEntriesByUserId = async (req, res, next) => {
   }
 };
 
-
+//Lisää uuden merkinnän
 const postEntry = async (req, res, next) => {
   const newEntry = req.body;
   newEntry.user_id = req.user.userId;
@@ -65,7 +66,7 @@ const postEntry = async (req, res, next) => {
   }
 };
 
-
+//Päivittää olemassa olevan merkinnän
  const putEntry = async (req, res) => {
   try {
     await updateEntry(req.params.id, req.body);
@@ -75,6 +76,7 @@ const postEntry = async (req, res, next) => {
   }
 };
 
+//Poistaa merkinnän
 const deleteEntry = async (req, res) => {
   try {
     await delEntry(req.params.id);

@@ -1,13 +1,15 @@
 import promisePool from '../utils/database.js';
 
 
-
+// Hakee kaikki merkinnät tietokannasta
 const getAllEntries = async () => {
   const [rows] = await promisePool.query('SELECT entry_id, user_id, entry_date, time_of_day, sleep_duration, sleep_notes, current_mood, activity, professional_comment FROM diary_entries');
   console.log(rows);
   return rows;
 };
 
+
+// Hakee merkinnän ID:n perusteella
 const selectEntryById  = async (entryId) => {
   try {
     if (!entryId) {
@@ -26,7 +28,7 @@ const selectEntryById  = async (entryId) => {
   }
 };
 
-
+//Hakee merkinnät käyttäjän ID:n perusteella
 const selectEntriesByUserId = async (userId) => {
   try {
     if (!userId) {
@@ -46,7 +48,7 @@ const selectEntriesByUserId = async (userId) => {
 };
 
 
-
+// Lisää uuden merkinnän
 const insertEntry = async (entry) => {
   try {
     const [result] = await promisePool.query(
@@ -62,6 +64,7 @@ const insertEntry = async (entry) => {
   }
 };
 
+// Päivittää olemassa olevan merkinnän
 const updateEntry = async (entryId, entryData) => {
   try {
     console.log('Updating entry with data:', entryData);
@@ -87,7 +90,7 @@ const updateEntry = async (entryId, entryData) => {
   }
 };
 
-
+//Poistaa merkinnän ID:n perusteella
 const delEntry = async (entryId) => {
   try {
     const [result] = await promisePool.query(

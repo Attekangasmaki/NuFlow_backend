@@ -1,19 +1,12 @@
 import 'dotenv/config';
 import fetch from 'node-fetch';
 
-//import {customError} from '../middlewares/error-handler.js';
+
 
 // Kubios API base URL should be set in .env
 const baseUrl = process.env.KUBIOS_API_URI;
 
-/**
-* Get user data from Kubios API example
-* TODO: Implement error handling
-* @async
-* @param {Request} req Request object including Kubios id token
-* @param {Response} res
-* @param {NextFunction} next
-*/
+//Hakee viimeisimmät HRV-arvot Kubioksesta
 const getLatestKubiosHrvValues = async (req, res, next) => {
   try {
     const { kubiosIdToken } = req.user;
@@ -72,6 +65,7 @@ const getLatestKubiosHrvValues = async (req, res, next) => {
   }
 };
 
+//Haetaan Kubioksesta HRV-arvot annetun päivämäärän perusteella
 const getKubiosHrvValuesByDate = async (req, res, next) => {
   try {
     const { kubiosIdToken } = req.user;
@@ -145,16 +139,7 @@ const getKubiosHrvValuesByDate = async (req, res, next) => {
 
 
 
-
-
-/**
-* Get user info from Kubios API example
-* TODO: Implement error handling
-* @async
-* @param {Request} req Request object including Kubios id token
-* @param {Response} res
-* @param {NextFunction} next
-*/
+//Hakee käyttäjätiedot Kubioksesta
 const getUserInfo = async (req, res, next) => {
   try {
     const { kubiosIdToken } = req.user;
@@ -191,7 +176,7 @@ const getUserInfo = async (req, res, next) => {
   }
 };
 
-
+//Hakee kaikki HRV-arvot Kubioksesta
 const getAllKubiosHrvValues = async (req, res, next) => {
   try {
     const { kubiosIdToken } = req.user;
@@ -250,6 +235,7 @@ const getAllKubiosHrvValues = async (req, res, next) => {
   }
 };
 
+// Haetaan viimeisimmän viikon mittaukset Kubioksesta
 const getKubiosHrvValuesLastWeek = async (req, res, next) => {
   try {
     const { kubiosIdToken } = req.user;
@@ -313,6 +299,7 @@ const getKubiosHrvValuesLastWeek = async (req, res, next) => {
 };
 
 
+//Hakee viimeisimmän kuukauden mittaukset Kubioksesta
 const getKubiosHrvValuesLastMonth = async (req, res, next) => {
   try {
     const { kubiosIdToken } = req.user;
@@ -375,7 +362,7 @@ const getKubiosHrvValuesLastMonth = async (req, res, next) => {
   }
 };
 
-
+// Päivittää käyttäjätiedot Kubioksessa
 const updateKubiosUserInfo = async (req, res, next) => {
   try {
     const { kubiosIdToken } = req.user;
@@ -434,6 +421,7 @@ const updateKubiosUserInfo = async (req, res, next) => {
   }
 };
 
+// Hakee viimeisimmät 7 mittaustulosta Kubioksesta
 const getKubiosLast7Measurements = async (req, res, next) => {
   try {
     const { kubiosIdToken } = req.user;
@@ -499,9 +487,7 @@ const getKubiosLast7Measurements = async (req, res, next) => {
 
 
 
-
-
-
+// Hakee viimeisimmät 30 mittaustulosta Kubioksesta
 const getKubiosLast30Measurements = async (req, res, next) => {
   try {
     const { kubiosIdToken } = req.user;
