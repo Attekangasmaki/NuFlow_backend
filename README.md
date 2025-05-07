@@ -1,3 +1,6 @@
+[Dokumentaatio](docs/index.html)
+
+
 # Käyttäjän toiminnallisuudet
 
 ### Sisäänkirjautuminen
